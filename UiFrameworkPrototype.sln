@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UiFramework.Tests", "UiFramework.Tests\UiFramework.Tests.csproj", "{5B1FE48E-80EA-4B83-AD8E-8B12F3506731}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UiFramework", "UiFramework\UiFramework.csproj", "{CA87A9B3-1946-4E81-8948-1778A374F491}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UiFramework.SampleApp", "UiFramework.SampleApp\UiFramework.SampleApp.csproj", "{7E4357F5-5D12-4A54-932F-2D71B3093398}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5B1FE48E-80EA-4B83-AD8E-8B12F3506731}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5B1FE48E-80EA-4B83-AD8E-8B12F3506731}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5B1FE48E-80EA-4B83-AD8E-8B12F3506731}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5B1FE48E-80EA-4B83-AD8E-8B12F3506731}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CA87A9B3-1946-4E81-8948-1778A374F491}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CA87A9B3-1946-4E81-8948-1778A374F491}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CA87A9B3-1946-4E81-8948-1778A374F491}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CA87A9B3-1946-4E81-8948-1778A374F491}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7E4357F5-5D12-4A54-932F-2D71B3093398}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E4357F5-5D12-4A54-932F-2D71B3093398}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7E4357F5-5D12-4A54-932F-2D71B3093398}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7E4357F5-5D12-4A54-932F-2D71B3093398}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
