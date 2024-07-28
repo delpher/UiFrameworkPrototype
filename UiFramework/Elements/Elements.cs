@@ -1,7 +1,15 @@
-﻿namespace UiFramework.Elements;
+﻿using System.Reflection;
 
-public static class Elements
+namespace UiFramework.Elements;
+
+public class Elements
 {
+    public bool Exposes(object element)
+    {
+        var methods = typeof(Elements).GetMethods(BindingFlags.Public | BindingFlags.Static);
+        return methods.Any(info => Equals(info.CreateDelegate<Func<IDictionary<string, object?>, ViewModelFactory[], ViewModelFactory>>(), element));
+    }
+
     public static ViewModelFactory Text(IDictionary<string, object?> props, ViewModelFactory[] children)
     {
         return () => new TextViewModel

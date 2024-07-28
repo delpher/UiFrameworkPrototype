@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+        <DownloadFile DestinationFolder="." SourceUrl="https://unpkg.com/@babel/standalone/babel.min.js" />
+    </Target>
+    
+    <ItemGroup>
+        <EmbeddedResource Include="babel.min.js" />
+    </ItemGroup>
+    
+    <ItemGroup>
+      <PackageReference Include="Microsoft.ClearScript.V8" Version="7.4.5" />
+      <PackageReference Include="Microsoft.ClearScript.V8.Native.win-x64" Version="7.4.5" />
+    </ItemGroup>
+    
+    <ItemGroup>
+      <ProjectReference Include="..\UiFramework\UiFramework.csproj" />
+    </ItemGroup>
+
+</Project>

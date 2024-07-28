@@ -13,6 +13,14 @@ public class ElementFactory(IRootController root)
     }
 
     public ViewModelFactory CreateElement(
+        ElementDefinition element,
+        IDictionary<string, object?>? props,
+        params ViewModelFactory[] children)
+    {
+        return () => element(props ?? new Dictionary<string, object?>(), children)();
+    }
+
+    public ViewModelFactory CreateElement(
         ComponentDefinition component,
         dynamic? props = null,
         params ViewModelFactory[] children)

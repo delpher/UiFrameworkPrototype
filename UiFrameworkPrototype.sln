@@ -6,6 +6,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UiFramework", "UiFramework\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UiFramework.SampleApp", "UiFramework.SampleApp\UiFramework.SampleApp.csproj", "{7E4357F5-5D12-4A54-932F-2D71B3093398}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UiFramework.JSX", "UiFramework.JSX\UiFramework.JSX.csproj", "{224302A1-B919-4940-9A8C-CD7AAE16F733}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UiFramework.JSX.Tests", "UiFramework.JSX.Tests\UiFramework.JSX.Tests.csproj", "{6230F35C-E5EC-4E69-9346-A1120D33EAD0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +28,13 @@ Global
 		{7E4357F5-5D12-4A54-932F-2D71B3093398}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7E4357F5-5D12-4A54-932F-2D71B3093398}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7E4357F5-5D12-4A54-932F-2D71B3093398}.Release|Any CPU.Build.0 = Release|Any CPU
+		{224302A1-B919-4940-9A8C-CD7AAE16F733}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{224302A1-B919-4940-9A8C-CD7AAE16F733}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{224302A1-B919-4940-9A8C-CD7AAE16F733}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{224302A1-B919-4940-9A8C-CD7AAE16F733}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6230F35C-E5EC-4E69-9346-A1120D33EAD0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6230F35C-E5EC-4E69-9346-A1120D33EAD0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6230F35C-E5EC-4E69-9346-A1120D33EAD0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6230F35C-E5EC-4E69-9346-A1120D33EAD0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
