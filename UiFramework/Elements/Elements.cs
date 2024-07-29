@@ -26,7 +26,7 @@ public class Elements
         return () => new ButtonViewModel(() => ((dynamic)onClick!)())
         {
             Text = props.TryGetValue("Text", out var text)
-                ? (string)text!
+                ? text?.ToString()
                 : string.Empty,
         };
     }

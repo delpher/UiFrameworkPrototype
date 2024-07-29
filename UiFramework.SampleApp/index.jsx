@@ -3,7 +3,7 @@
 
     return <Container>
         <Text text={count}/>
-        <Button text={count} onClick={() => setCount(count + 1)} />
+        <Button text="Add" onClick={() => setCount(count + 1)} />
     </Container>
 }
 

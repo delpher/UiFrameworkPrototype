@@ -4,7 +4,7 @@ namespace UiFramework.Elements;
 
 public class ButtonViewModel(Action? onClick)
 {
-    public string Text { get; init; } = string.Empty;
+    public string? Text { get; init; } = string.Empty;
     public ICommand Click { get; init; } = new ActionCommand(onClick);
 
     private class ActionCommand(Action? action) : ICommand
