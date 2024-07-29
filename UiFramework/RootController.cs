@@ -1,12 +1,24 @@
 ﻿namespace UiFramework;
 
-public class RootController(Action<object> output) : IRootController
+public class RootController : IRootController
 {
     private Action _renderer = null!;
-    public void Render(ViewModelFactory element)
+    private readonly StateManager _stateManager;
+    private readonly Action<object> _output;
+    public RootController(Action<object> output)
     {
-        (_renderer = () => output(element()))();
+        _output = output;
+        _stateManager = new(this);
     }
 
+    public void Render(ViewModelFactory element) =>
+        (_renderer = () =>
+        {
+            _stateManager.ResetIndex();
+            _output(element());
+        })();
+
     public void Render() => _renderer();
+
+    public void MakeCurrent() => StateManager.SetCurrent(_stateManager);
 }

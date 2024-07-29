@@ -23,7 +23,7 @@ public class Elements
     public static ViewModelFactory Button(IDictionary<string, object?> props, ViewModelFactory[] children)
     {
         props.TryGetValue("OnClick", out var onClick);
-        return () => new ButtonViewModel((Action?)onClick)
+        return () => new ButtonViewModel(() => ((dynamic)onClick!)())
         {
             Text = props.TryGetValue("Text", out var text)
                 ? (string)text!

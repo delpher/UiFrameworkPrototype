@@ -2,14 +2,18 @@
 
 namespace UiFramework;
 
-public class ElementFactory(IRootController root)
+public class ElementFactory(RootController rootController)
 {
     public ViewModelFactory CreateElement(
         ElementDefinition element,
         dynamic? props = null,
         params ViewModelFactory[] children)
     {
-        return () => element(DynamicExtensions.GetProperties(props), children)();
+        return () =>
+        {
+            rootController.MakeCurrent();
+            return element(DynamicExtensions.GetProperties(props), children)();
+        };
     }
 
     public ViewModelFactory CreateElement(
@@ -17,15 +21,10 @@ public class ElementFactory(IRootController root)
         IDictionary<string, object?>? props,
         params ViewModelFactory[] children)
     {
-        return () => element(props ?? new Dictionary<string, object?>(), children)();
-    }
-
-    public ViewModelFactory CreateElement(
-        ComponentDefinition component,
-        dynamic? props = null,
-        params ViewModelFactory[] children)
-    {
-        var context = new ComponentContext(root);
-        return () => component(context, DynamicExtensions.GetProperties(props), children)();
+        return () =>
+        {
+            rootController.MakeCurrent();
+            return element(props ?? new Dictionary<string, object?>(), children)();
+        };
     }
 }

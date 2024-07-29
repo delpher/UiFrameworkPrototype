@@ -1,17 +1,23 @@
 ﻿namespace UiFramework.JSX;
 
+// ReSharper disable InconsistentNaming
+// ReSharper disable UnusedMember.Global
+// ReSharper disable MemberCanBePrivate.Global
 public class FrameworkJsxAdapter(RootController rootController)
 {
     private readonly ElementFactory _elementFactory = new(rootController);
 
-    // ReSharper disable once InconsistentNaming
+    public void beginComponent()
+    {
+        rootController.MakeCurrent();
+    }
+
     public ViewModelFactory createElement(object? element, object? props, object? children)
     {
         var adaptedChildren = (IEnumerable<object>?)children;
         return createElement((Func<IDictionary<string, object?>, ViewModelFactory[], ViewModelFactory>)element!, props, adaptedChildren?.ToArray());
     }
 
-    // ReSharper disable once InconsistentNaming
     public ViewModelFactory createElement(Func<IDictionary<string, object?>, ViewModelFactory[], ViewModelFactory> element, object? props, object[]? children = null)
     {
         var adaptedProps = (IDictionary<string, object?>)(props ?? new Dictionary<string, object?>());
@@ -22,8 +28,9 @@ public class FrameworkJsxAdapter(RootController rootController)
         ViewModelFactory ElementDefinitionAdapter(IDictionary<string, object?> p, ViewModelFactory[] c) => element(p, c);
     }
 
-    public object[] useState()
+    public static object[] useState(object initialState)
     {
-        throw new NotImplementedException();
+        var (state, setState) = StateManager.UseState(initialState);
+        return [state, setState];
     }
 }

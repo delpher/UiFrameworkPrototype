@@ -1,6 +1,7 @@
 using FluentAssertions;
 using UiFramework.Elements;
 using static UiFramework.Elements.Elements;
+using static UiFramework.StateManager;
 
 namespace UiFramework.Tests;
 
@@ -64,9 +65,9 @@ public class UiFrameworkShould
 
         return;
 
-        ViewModelFactory CustomComponent(IComponentContext context, dynamic props, params ViewModelFactory[] children)
+        ViewModelFactory CustomComponent(dynamic props, params ViewModelFactory[] children)
         {
-            var (text, setText) = context.UseState("default text");
+            var (text, setText) = UseState("default text");
             return CreateElement(Container, null,
                 CreateElement(Text, new { Text = text }),
                 CreateElement(Button, new { OnClick = new Action(() => setText("button clicked")) })
@@ -90,13 +91,5 @@ public class UiFrameworkShould
         params ViewModelFactory[] children)
     {
         return _f.CreateElement(element, props, children);
-    }
-
-    private ViewModelFactory CreateElement(
-        ComponentDefinition component,
-        dynamic? props = null,
-        params ViewModelFactory[] children)
-    {
-        return _f.CreateElement(component, props, children);
     }
 }

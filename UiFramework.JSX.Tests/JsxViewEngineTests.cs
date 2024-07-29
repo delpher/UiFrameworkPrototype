@@ -52,15 +52,15 @@ public class JsxViewEngineShould
     {
         _viewEngine.Render("""
                            function StateComponent() {
-                                const state = useState("initial text");
+                                const [text, setText] = useState("initial text");
                                 
                                 return <Container>
-                                    <Text Text={state.text} />
-                                    <Button onClick={() => state.setText("button clicked")} />
+                                    <Text Text={text} />
+                                    <Button OnClick={() => setText("button clicked")} />
                                 </Container>
                            }
                            
-                           (<StateComponent />)
+                           <StateComponent />
                            """);
         _viewModel.Content.As<ContainerViewModel>().Children[0].As<TextViewModel>().Text.Should().Be("initial text");
         _viewModel.Content.As<ContainerViewModel>().Children[1].As<ButtonViewModel>().Click.Execute(null);

@@ -15,27 +15,34 @@ public class JsxViewEngine(RootController rootController) : IDisposable
 
     public void Render(string jsx)
     {
-        var transpiledViewScript = _babel.Transform(jsx);
-        _jsEngine.Execute("""
-                          const React = { createElement: (element, props, ...children) => { 
-                                if (Elements.Exposes(element)) 
-                                    return Framework.createElement(element, props, children);
-                                return element.bind(Framework.createContext)({...props, children});
-                            }}
-                          
-                          const useState = Framework.useState;
-                          """);
-        _jsEngine.ExposeHostObjectStaticMembers = true;
-        _jsEngine.AddHostObject("Framework", new FrameworkJsxAdapter(rootController));
+        ExposeFrameworkJsApi();
+        ExposeUiElements();
+        AddReactBridgeScript();
 
+        var script = _jsEngine.Compile(_babel.Transform(jsx));
+
+        rootController.Render(() => ((ViewModelFactory)_jsEngine.Evaluate(script))());
+    }
+
+    private void AddReactBridgeScript()
+    {
+        _jsEngine.Execute(ScriptResources.Read("react-bridge.js"));
+    }
+
+    private void ExposeFrameworkJsApi()
+    {
+        _jsEngine.AddHostObject("Framework", new FrameworkJsxAdapter(rootController));
+    }
+
+    private void ExposeUiElements()
+    {
+        _jsEngine.ExposeHostObjectStaticMembers = true;
         _jsEngine.AddHostObject("Elements", new Elements.Elements());
         foreach (var methodInfo in typeof(Elements.Elements).GetMethods(BindingFlags.Static | BindingFlags.Public))
         {
             _jsEngine.AddHostObject(methodInfo.Name,
                 methodInfo.CreateDelegate<Func<IDictionary<string, object?>, ViewModelFactory[], ViewModelFactory>>());
         }
-
-        rootController.Render((ViewModelFactory)_jsEngine.Evaluate(transpiledViewScript));
     }
 
     public void Dispose()
