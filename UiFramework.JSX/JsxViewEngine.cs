@@ -5,6 +5,8 @@ namespace UiFramework.JSX;
 
 public class JsxViewEngine(RootController rootController) : IDisposable
 {
+    private bool _initialized;
+
     private readonly V8ScriptEngine _jsEngine = new(
         // V8ScriptEngineFlags.EnableDebugging |
         // V8ScriptEngineFlags.EnableRemoteDebugging |
@@ -15,24 +17,26 @@ public class JsxViewEngine(RootController rootController) : IDisposable
 
     public void Render(string jsx)
     {
-        ExposeFrameworkJsApi();
-        ExposeUiElements();
-        AddFrameworkApi();
+        EnsureInitialized();
 
         var scriptSource = _babel.Transform(jsx);
-        var script = _jsEngine.Compile(scriptSource);
+        var compiledScript = _jsEngine.Compile(scriptSource);
 
-        rootController.Render(() => ((ViewModelFactory)_jsEngine.Evaluate(script))());
+        rootController.Render(() => ((ViewModelFactory)_jsEngine.Evaluate(compiledScript))());
+    }
+
+    private void EnsureInitialized()
+    {
+        if (_initialized) return;
+        AddFrameworkApi();
+        ExposeUiElements();
+        _initialized = true;
     }
 
     private void AddFrameworkApi()
     {
-        _jsEngine.Execute(ScriptResources.Read("api-bridge.js"));
-    }
-
-    private void ExposeFrameworkJsApi()
-    {
         _jsEngine.AddHostObject("Framework", new FrameworkApi(rootController));
+        _jsEngine.Execute(ScriptResources.Read("api-bridge.js"));
     }
 
     private void ExposeUiElements()
@@ -51,5 +55,11 @@ public class JsxViewEngine(RootController rootController) : IDisposable
         _jsEngine.Dispose();
         _babel.Dispose();
         GC.SuppressFinalize(this);
+    }
+
+    public JsxViewEngine SetDebugOutput(Action<object> output)
+    {
+        _jsEngine.AddHostObject("DebugOutput", output);
+        return this;
     }
 }

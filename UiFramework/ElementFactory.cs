@@ -16,6 +16,16 @@ public class ElementFactory(RootController rootController)
         };
     }
 
+    public ViewModelFactory CreateElement(ComponentDefinition element, dynamic? props, ViewModelFactory[] children)
+    {
+        var stateManager = new StateManager(rootController);
+        return () =>
+        {
+            rootController.MakeCurrent();
+            return element(stateManager, props ?? new Dictionary<string, object?>(), children)();
+        };
+    }
+
     public ViewModelFactory CreateElement(
         ElementDefinition element,
         dynamic? props = null,

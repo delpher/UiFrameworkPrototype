@@ -8,7 +8,7 @@ public class StateManager(IRootController rootController)
 
     public void ResetIndex() => _stateIndex = -1;
 
-    private (object, Action<object>) UseStateInternal(object initialState)
+    private (object, Action<object>) UseStateImpl(object initialState)
     {
         _stateIndex++;
         var memoizedStateIndex = _stateIndex;
@@ -25,7 +25,7 @@ public class StateManager(IRootController rootController)
         if (_current == null)
             throw new InvalidOperationException("UseState can only be called inside component");
 
-        return _current.UseStateInternal(initialState);
+        return _current.UseStateImpl(initialState);
     }
 
     public static void SetCurrent(StateManager stateManager)

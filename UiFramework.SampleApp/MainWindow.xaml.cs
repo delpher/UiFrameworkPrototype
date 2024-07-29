@@ -1,5 +1,4 @@
 ﻿using UiFramework.JSX;
-using static UiFramework.Elements.Elements;
 
 namespace UiFramework.SampleApp;
 
