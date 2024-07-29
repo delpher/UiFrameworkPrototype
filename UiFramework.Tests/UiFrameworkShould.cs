@@ -14,7 +14,7 @@ public class UiFrameworkShould
     public UiFrameworkShould()
     {
         _testAppViewModel = new();
-        _root = ViewFactory.CreateRoot(_testAppViewModel, nameof(_testAppViewModel.Content));
+        _root = UiFactory.CreateRoot(_testAppViewModel, nameof(_testAppViewModel.Content));
         _f = new(_root);
     }
 

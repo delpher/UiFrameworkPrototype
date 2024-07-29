@@ -2,5 +2,5 @@
 
 public class TextViewModel
 {
-    public string Text { get; init; } = string.Empty;
+    public string? Text { get; init; } = string.Empty;
 }

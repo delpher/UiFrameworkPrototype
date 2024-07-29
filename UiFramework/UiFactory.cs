@@ -1,6 +1,6 @@
 ﻿namespace UiFramework;
 
-public static class ViewFactory
+public static class UiFactory
 {
     public static RootController CreateRoot(object viewModel, string propertyName)
     {

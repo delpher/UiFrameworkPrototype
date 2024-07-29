@@ -17,21 +17,22 @@ public class JsxViewEngine(RootController rootController) : IDisposable
     {
         ExposeFrameworkJsApi();
         ExposeUiElements();
-        AddReactBridgeScript();
+        AddFrameworkApi();
 
-        var script = _jsEngine.Compile(_babel.Transform(jsx));
+        var scriptSource = _babel.Transform(jsx);
+        var script = _jsEngine.Compile(scriptSource);
 
         rootController.Render(() => ((ViewModelFactory)_jsEngine.Evaluate(script))());
     }
 
-    private void AddReactBridgeScript()
+    private void AddFrameworkApi()
     {
-        _jsEngine.Execute(ScriptResources.Read("react-bridge.js"));
+        _jsEngine.Execute(ScriptResources.Read("api-bridge.js"));
     }
 
     private void ExposeFrameworkJsApi()
     {
-        _jsEngine.AddHostObject("Framework", new FrameworkJsxAdapter(rootController));
+        _jsEngine.AddHostObject("Framework", new FrameworkApi(rootController));
     }
 
     private void ExposeUiElements()

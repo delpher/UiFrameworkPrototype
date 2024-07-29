@@ -15,7 +15,7 @@ public class Elements
         return () => new TextViewModel
         {
             Text = props.TryGetValue("Text", out var text)
-                ? (string)text!
+                ? text?.ToString()
                 : string.Empty
         };
     }

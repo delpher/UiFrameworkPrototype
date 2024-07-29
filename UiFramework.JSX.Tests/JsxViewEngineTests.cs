@@ -1,4 +1,5 @@
-﻿using UiFramework.Elements;
+﻿using System.ComponentModel;
+using UiFramework.Elements;
 
 namespace UiFramework.JSX.Tests;
 
@@ -10,13 +11,13 @@ public class JsxViewEngineShould
     public JsxViewEngineShould()
     {
         _viewModel = new();
-        _viewEngine = new(ViewFactory.CreateRoot(_viewModel, nameof(_viewModel.Content)));
+        _viewEngine = new(UiFactory.CreateRoot(_viewModel, nameof(_viewModel.Content)));
     }
 
     [Fact]
     public void Standard_Element_Test()
     {
-        _viewEngine.Render("<Text Text=\"Test text\"/>");
+        _viewEngine.Render("<Text text=\"Test text\"/>");
         _viewModel.Content.As<TextViewModel>().Text.Should().Be("Test text");
     }
 
@@ -25,7 +26,7 @@ public class JsxViewEngineShould
     {
         _viewEngine.Render("""
                            function CustomComponent() {
-                              return <Text Text="Test text"/>
+                              return <Text text="Test text"/>
                            }
                            <CustomComponent />
                            """);
@@ -37,14 +38,32 @@ public class JsxViewEngineShould
     {
         _viewEngine.Render("""
                            <Container>
-                            <Text Text="text 1" />
-                            <Text Text="text 2" />
+                            <Text text="text 1" />
+                            <Text text="text 2" />
                            </Container>
                            """);
         _viewModel.Content.As<ContainerViewModel>()
             .Children[0].As<TextViewModel>().Text.Should().Be("text 1");
         _viewModel.Content.As<ContainerViewModel>()
             .Children[1].As<TextViewModel>().Text.Should().Be("text 2");
+    }
+
+    [Fact]
+    public void A_Child_Is_Array_Test()
+    {
+        _viewEngine.Render("""
+                           const items = ['one', 'two', 'three'];
+                           <Container>
+                            {items.map(item => <Text text={item} />)}
+                           </Container>
+                           """);
+
+        _viewModel.Content.As<ContainerViewModel>()
+            .Children[0].As<TextViewModel>().Text.Should().Be("one");
+        _viewModel.Content.As<ContainerViewModel>()
+            .Children[1].As<TextViewModel>().Text.Should().Be("two");
+        _viewModel.Content.As<ContainerViewModel>()
+            .Children[2].As<TextViewModel>().Text.Should().Be("three");
     }
 
     [Fact]
@@ -55,8 +74,8 @@ public class JsxViewEngineShould
                                 const [text, setText] = useState("initial text");
                                 
                                 return <Container>
-                                    <Text Text={text} />
-                                    <Button OnClick={() => setText("button clicked")} />
+                                    <Text text={text} />
+                                    <Button onClick={() => setText("button clicked")} />
                                 </Container>
                            }
                            
