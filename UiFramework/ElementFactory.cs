@@ -4,21 +4,21 @@ namespace UiFramework;
 
 public class ElementFactory(RootController rootController)
 {
-    public ViewModelFactory CreateElement(
+    public FiberNode CreateElement(
         ElementDefinition element,
         IDictionary<string, object?>? props,
-        params ViewModelFactory[] children)
+        params FiberNode[] children)
     {
-        return () =>
+        return new(() =>
         {
             rootController.SetCurrent();
-            return element(props ?? new Dictionary<string, object?>(), children)();
-        };
+            return element(props ?? new Dictionary<string, object?>(), children).Execute();
+        });
     }
 
-    public ViewModelFactory CreateElement(
+    public FiberNode CreateElement(
         ElementDefinition element,
         dynamic? props = null,
-        params ViewModelFactory[] children) =>
+        params FiberNode[] children) =>
         CreateElement(element, DynamicExtensions.GetProperties(props), children);
 }

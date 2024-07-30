@@ -17,7 +17,7 @@ public class UseStateHookTests(ITestOutputHelper output)
         ViewEngine.Render("""
                           function StateComponent() {
                                const [text, setText] = useState("initial text");
-                               
+
                                return <Container>
                                    <Text text={text} />
                                    <Button onClick={() => setText("button clicked")} />

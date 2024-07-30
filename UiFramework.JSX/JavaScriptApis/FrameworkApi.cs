@@ -11,11 +11,11 @@ public class FrameworkApi(RootController rootController)
 {
     private readonly ElementFactory _elementFactory = new(rootController);
 
-    public ViewModelFactory createElement(object element, object props, object children)
+    public FiberNode createElement(object element, object props, object children)
     {
         ElementDefinition? adaptedElement = null;
 
-        if (element is Func<IDictionary<string, object?>, ViewModelFactory[], ViewModelFactory> elementDefinition)
+        if (element is Func<IDictionary<string, object?>, FiberNode[], FiberNode> elementDefinition)
             adaptedElement = new(elementDefinition);
 
         if (element is ScriptObject)
@@ -29,8 +29,8 @@ public class FrameworkApi(RootController rootController)
         var adaptedChildren = (children as IList<object> ?? [])
             .SelectMany(child => child switch
             {
-                ViewModelFactory viewModelFactory => [viewModelFactory],
-                IList<object> list => list.Cast<ViewModelFactory>(),
+                FiberNode viewModelFactory => [viewModelFactory],
+                IList<object> list => list.Cast<FiberNode>(),
                 _ => []
             }).ToArray();
 

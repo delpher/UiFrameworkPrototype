@@ -11,11 +11,11 @@ public class RootController : IRootController
         _stateManager = new(this);
     }
 
-    public void Render(ViewModelFactory element) =>
+    public void Render(FiberNode element) =>
         (_renderer = () =>
         {
             _stateManager.ResetIndex();
-            _output(element());
+            _output(element.Execute());
         })();
 
     public void Render() => _renderer();
