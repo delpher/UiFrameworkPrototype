@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using Microsoft.ClearScript;
 
-namespace UiFramework.JSX;
+namespace UiFramework.JSX.JavaScriptApis;
 
 // ReSharper disable InconsistentNaming
 // ReSharper disable UnusedMember.Global
