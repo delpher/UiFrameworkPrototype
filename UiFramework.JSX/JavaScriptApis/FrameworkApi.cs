@@ -11,11 +11,11 @@ public class FrameworkApi()
 {
     private readonly ElementFactory _elementFactory = new();
 
-    public ViewModelFactory createElement(object element, object props, object children)
+    public Element createElement(object element, object props, object children)
     {
         ElementDefinition? adaptedElement = null;
 
-        if (element is Func<IDictionary<string, object?>, ViewModelFactory[], ViewModelFactory> elementDefinition)
+        if (element is Func<IDictionary<string, object?>, Element[], Element> elementDefinition)
             adaptedElement = new(elementDefinition);
 
         if (element is ScriptObject)
@@ -29,8 +29,8 @@ public class FrameworkApi()
         var adaptedChildren = (children as IList<object> ?? [])
             .SelectMany(child => child switch
             {
-                ViewModelFactory c => [c],
-                IList<object> c => c.Cast<ViewModelFactory>(),
+                Element c => [c],
+                IList<object> c => c.Cast<Element>(),
                 _ => []
             }).ToArray();
 

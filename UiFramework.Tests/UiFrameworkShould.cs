@@ -65,7 +65,7 @@ public class UiFrameworkShould
 
         return;
 
-        ViewModelFactory CustomComponent(dynamic props, params ViewModelFactory[] children)
+        Element CustomComponent(dynamic props, params Element[] children)
         {
             var (text, setText) = UseState("default text");
             return CreateElement(Container, null,
@@ -75,7 +75,7 @@ public class UiFrameworkShould
         }
     }
 
-    private void Render(ViewModelFactory element)
+    private void Render(Element element)
     {
         _root.Render(element);
     }
@@ -85,10 +85,10 @@ public class UiFrameworkShould
         return _testAppViewModel.Content.As<T>()!;
     }
 
-    private ViewModelFactory CreateElement(
+    private Element CreateElement(
         ElementDefinition element,
         dynamic? props = null,
-        params ViewModelFactory[] children)
+        params Element[] children)
     {
         return _f.CreateElement(element, props, children);
     }

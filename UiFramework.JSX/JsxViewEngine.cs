@@ -47,7 +47,7 @@ public class JsxViewEngine(RootController rootController) : IDisposable
         foreach (var methodInfo in typeof(Elements.Elements).GetMethods(BindingFlags.Static | BindingFlags.Public))
         {
             _jsEngine.AddHostObject(methodInfo.Name,
-                methodInfo.CreateDelegate<Func<IDictionary<string, object?>, ViewModelFactory[], ViewModelFactory>>());
+                methodInfo.CreateDelegate<Func<IDictionary<string, object?>, Element[], Element>>());
         }
     }
 

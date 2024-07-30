@@ -8,10 +8,10 @@ public class Elements
     {
         var methods = typeof(Elements).GetMethods(BindingFlags.Public | BindingFlags.Static);
         return methods.Any(info =>
-            Equals(info.CreateDelegate<Func<IDictionary<string, object?>, ViewModelFactory[], ViewModelFactory>>(), element));
+            Equals(info.CreateDelegate<Func<IDictionary<string, object?>, Element[], Element>>(), element));
     }
 
-    public static ViewModelFactory Text(IDictionary<string, object?> props, ViewModelFactory[] children)
+    public static Element Text(IDictionary<string, object?> props, Element[] children)
     {
         return () => new TextViewModel
         {
@@ -21,7 +21,7 @@ public class Elements
         };
     }
 
-    public static ViewModelFactory Button(IDictionary<string, object?> props, ViewModelFactory[] children)
+    public static Element Button(IDictionary<string, object?> props, Element[] children)
     {
         props.TryGetValue("OnClick", out var onClick);
         return () => new ButtonViewModel(() => ((dynamic)onClick!)())
@@ -32,7 +32,7 @@ public class Elements
         };
     }
 
-    public static ViewModelFactory Container(IDictionary<string, object?> props, ViewModelFactory[] children)
+    public static Element Container(IDictionary<string, object?> props, Element[] children)
     {
         return () =>
             new ContainerViewModel(
