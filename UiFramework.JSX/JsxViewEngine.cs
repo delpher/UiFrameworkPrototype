@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using Microsoft.ClearScript.V8;
+using UiFramework.Elements;
 using UiFramework.JSX.JavaScriptApis;
 
 namespace UiFramework.JSX;
@@ -30,7 +31,7 @@ public class JsxViewEngine(RootController rootController) : IDisposable
     {
         if (_initialized) return;
         AddFrameworkApi();
-        ExposeUiElements();
+        ExposeComponents();
         _initialized = true;
     }
 
@@ -40,11 +41,11 @@ public class JsxViewEngine(RootController rootController) : IDisposable
         _jsEngine.Execute(ScriptResources.Read("api-bridge.js"));
     }
 
-    private void ExposeUiElements()
+    private void ExposeComponents()
     {
         _jsEngine.ExposeHostObjectStaticMembers = true;
-        _jsEngine.AddHostObject("Elements", new Elements.Elements());
-        foreach (var methodInfo in typeof(Elements.Elements).GetMethods(BindingFlags.Static | BindingFlags.Public))
+        _jsEngine.AddHostObject("Components", new Components());
+        foreach (var methodInfo in typeof(Components).GetMethods(BindingFlags.Static | BindingFlags.Public))
         {
             _jsEngine.AddHostObject(methodInfo.Name,
                 methodInfo.CreateDelegate<Func<IDictionary<string, object?>, Element[], Element>>());

@@ -13,7 +13,7 @@ public class FrameworkApi()
 
     public Element createElement(object element, object props, object children)
     {
-        ElementDefinition? adaptedElement = null;
+        Component? adaptedElement = null;
 
         if (element is Func<IDictionary<string, object?>, Element[], Element> elementDefinition)
             adaptedElement = new(elementDefinition);

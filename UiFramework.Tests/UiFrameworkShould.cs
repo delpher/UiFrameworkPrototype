@@ -1,6 +1,6 @@
 using FluentAssertions;
 using UiFramework.Elements;
-using static UiFramework.Elements.Elements;
+using static UiFramework.Elements.Components;
 using static UiFramework.StateManager;
 
 namespace UiFramework.Tests;
@@ -86,7 +86,7 @@ public class UiFrameworkShould
     }
 
     private Element CreateElement(
-        ElementDefinition element,
+        Component element,
         dynamic? props = null,
         params Element[] children)
     {

@@ -1,6 +1,6 @@
 ﻿namespace UiFramework.Elements;
 
-public class Elements
+public class Components
 {
     public static Element Text(IDictionary<string, object?> props, Element[] children)
     {

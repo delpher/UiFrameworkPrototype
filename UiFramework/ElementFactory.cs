@@ -5,16 +5,16 @@ namespace UiFramework;
 public class ElementFactory
 {
     public Element CreateElement(
-        ElementDefinition element,
+        Component component,
         IDictionary<string, object?>? props,
         params Element[] children)
     {
-        return () => element(props ?? new Dictionary<string, object?>(), children)();
+        return () => component(props ?? new Dictionary<string, object?>(), children)();
     }
 
     public Element CreateElement(
-        ElementDefinition element,
+        Component component,
         dynamic? props = null,
         params Element[] children) =>
-        CreateElement(element, DynamicExtensions.GetProperties(props), children);
+        CreateElement(component, DynamicExtensions.GetProperties(props), children);
 }
