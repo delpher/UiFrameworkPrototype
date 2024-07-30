@@ -11,18 +11,8 @@ public class ElementFactory(RootController rootController)
     {
         return () =>
         {
-            rootController.MakeCurrent();
+            rootController.SetCurrent();
             return element(props ?? new Dictionary<string, object?>(), children)();
-        };
-    }
-
-    public ViewModelFactory CreateElement(ComponentDefinition element, dynamic? props, ViewModelFactory[] children)
-    {
-        var stateManager = new StateManager(rootController);
-        return () =>
-        {
-            rootController.MakeCurrent();
-            return element(stateManager, props ?? new Dictionary<string, object?>(), children)();
         };
     }
 

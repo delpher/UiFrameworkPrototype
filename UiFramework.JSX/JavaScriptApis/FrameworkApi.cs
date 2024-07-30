@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using Microsoft.ClearScript;
 
 namespace UiFramework.JSX;
 
@@ -10,33 +11,30 @@ public class FrameworkApi(RootController rootController)
 {
     private readonly ElementFactory _elementFactory = new(rootController);
 
-    public void beginComponent() => rootController.MakeCurrent();
-
     public ViewModelFactory createElement(object element, object props, object children)
     {
-        var adaptedChildren = (IEnumerable<object>?)children;
-        return createElement((Func<IDictionary<string, object?>, ViewModelFactory[], ViewModelFactory>)element, props,
-            adaptedChildren?.ToArray());
-    }
+        ElementDefinition? adaptedElement = null;
 
-    public ViewModelFactory createElement(
-        Func<IDictionary<string, object?>, ViewModelFactory[], ViewModelFactory> element, object? props,
-        object[]? children = null)
-    {
-        var adaptedProps = (IDictionary<string, object?>)(props ?? new Dictionary<string, object?>());
+        if (element is Func<IDictionary<string, object?>, ViewModelFactory[], ViewModelFactory> elementDefinition)
+            adaptedElement = new(elementDefinition);
 
-        var adaptedChildren = (children ?? [])
+        if (element is ScriptObject)
+            adaptedElement = (p, c) => ((dynamic)element)(p, c);
+
+        if (adaptedElement == null)
+            throw new InvalidOperationException("Failed to convert element to ElementDefinition");
+
+        var adaptedProps = (IDictionary<string, object?>)props;
+
+        var adaptedChildren = (children as IList<object> ?? [])
             .SelectMany(child => child switch
             {
-                ViewModelFactory factory => [factory],
+                ViewModelFactory viewModelFactory => [viewModelFactory],
                 IList<object> list => list.Cast<ViewModelFactory>(),
                 _ => []
             }).ToArray();
 
-        return _elementFactory.CreateElement(ElementDefinitionAdapter, adaptedProps, adaptedChildren);
-
-        ViewModelFactory ElementDefinitionAdapter(IDictionary<string, object?> p, ViewModelFactory[] c) =>
-            element(p, c);
+        return _elementFactory.CreateElement(adaptedElement, adaptedProps, adaptedChildren);
     }
 
     public object[] useState(object initialState)

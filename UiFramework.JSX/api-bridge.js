@@ -1,12 +1,7 @@
 ﻿const React = (() => {
     return {
-        createElement: (element, props, ...children) => {
-            if (Elements.Exposes(element))
-                return Framework.createElement(element, toUpperCamelCaseNames(props), children);
-
-            Framework.beginComponent();
-            return element({...props, children});
-        }
+        createElement: (element, props, ...children) =>
+            Framework.createElement(element, toUpperCamelCaseNames(props) || {}, children || [])
     }
 
     function toUpperCamelCaseNames(props) {

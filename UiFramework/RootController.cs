@@ -20,5 +20,13 @@ public class RootController : IRootController
 
     public void Render() => _renderer();
 
-    public void MakeCurrent() => StateManager.SetCurrent(_stateManager);
+    public void SetCurrent()
+    {
+        StateManager.SetCurrent(_stateManager);
+    }
+
+    public object CreateNode()
+    {
+        return new { };
+    }
 }
