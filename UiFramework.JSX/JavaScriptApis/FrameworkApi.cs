@@ -7,15 +7,15 @@ namespace UiFramework.JSX;
 // ReSharper disable UnusedMember.Global
 // ReSharper disable MemberCanBePrivate.Global
 [SuppressMessage("Performance", "CA1822:Mark members as static")]
-public class FrameworkApi(RootController rootController)
+public class FrameworkApi()
 {
-    private readonly ElementFactory _elementFactory = new(rootController);
+    private readonly ElementFactory _elementFactory = new();
 
-    public FiberNode createElement(object element, object props, object children)
+    public ViewModelFactory createElement(object element, object props, object children)
     {
         ElementDefinition? adaptedElement = null;
 
-        if (element is Func<IDictionary<string, object?>, FiberNode[], FiberNode> elementDefinition)
+        if (element is Func<IDictionary<string, object?>, ViewModelFactory[], ViewModelFactory> elementDefinition)
             adaptedElement = new(elementDefinition);
 
         if (element is ScriptObject)
@@ -29,8 +29,8 @@ public class FrameworkApi(RootController rootController)
         var adaptedChildren = (children as IList<object> ?? [])
             .SelectMany(child => child switch
             {
-                FiberNode viewModelFactory => [viewModelFactory],
-                IList<object> list => list.Cast<FiberNode>(),
+                ViewModelFactory c => [c],
+                IList<object> c => c.Cast<ViewModelFactory>(),
                 _ => []
             }).ToArray();
 

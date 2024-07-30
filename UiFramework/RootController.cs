@@ -1,32 +1,15 @@
 ﻿namespace UiFramework;
 
-public class RootController : IRootController
+public class RootController(Action<object> output) : IRootController
 {
     private Action _renderer = null!;
-    private readonly StateManager _stateManager;
-    private readonly Action<object> _output;
-    public RootController(Action<object> output)
-    {
-        _output = output;
-        _stateManager = new(this);
-    }
+    private FiberNode? _rootFiber;
 
-    public void Render(FiberNode element) =>
-        (_renderer = () =>
-        {
-            _stateManager.ResetIndex();
-            _output(element.Execute());
-        })();
+    public void Render(ViewModelFactory element)
+    {
+        _rootFiber = new(element, this);
+        (_renderer = () => output(_rootFiber.Execute()))();
+    }
 
     public void Render() => _renderer();
-
-    public void SetCurrent()
-    {
-        StateManager.SetCurrent(_stateManager);
-    }
-
-    public object CreateNode()
-    {
-        return new { };
-    }
 }

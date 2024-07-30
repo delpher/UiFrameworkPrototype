@@ -22,7 +22,7 @@ public class JsxViewEngine(RootController rootController) : IDisposable
         var scriptSource = _babel.Transform(jsx);
         var compiledScript = _jsEngine.Compile(scriptSource);
 
-        rootController.Render((FiberNode)_jsEngine.Evaluate(compiledScript));
+        rootController.Render(() => ((dynamic)_jsEngine.Evaluate(compiledScript))());
     }
 
     private void EnsureInitialized()
@@ -35,7 +35,7 @@ public class JsxViewEngine(RootController rootController) : IDisposable
 
     private void AddFrameworkApi()
     {
-        _jsEngine.AddHostObject("Framework", new FrameworkApi(rootController));
+        _jsEngine.AddHostObject("Framework", new FrameworkApi());
         _jsEngine.Execute(ScriptResources.Read("api-bridge.js"));
     }
 
@@ -46,7 +46,7 @@ public class JsxViewEngine(RootController rootController) : IDisposable
         foreach (var methodInfo in typeof(Elements.Elements).GetMethods(BindingFlags.Static | BindingFlags.Public))
         {
             _jsEngine.AddHostObject(methodInfo.Name,
-                methodInfo.CreateDelegate<Func<IDictionary<string, object?>, FiberNode[], FiberNode>>());
+                methodInfo.CreateDelegate<Func<IDictionary<string, object?>, ViewModelFactory[], ViewModelFactory>>());
         }
     }
 

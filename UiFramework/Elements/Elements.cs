@@ -8,35 +8,35 @@ public class Elements
     {
         var methods = typeof(Elements).GetMethods(BindingFlags.Public | BindingFlags.Static);
         return methods.Any(info =>
-            Equals(info.CreateDelegate<Func<IDictionary<string, object?>, FiberNode[], FiberNode>>(), element));
+            Equals(info.CreateDelegate<Func<IDictionary<string, object?>, ViewModelFactory[], ViewModelFactory>>(), element));
     }
 
-    public static FiberNode Text(IDictionary<string, object?> props, FiberNode[] children)
+    public static ViewModelFactory Text(IDictionary<string, object?> props, ViewModelFactory[] children)
     {
-        return new(() => new TextViewModel
+        return () => new TextViewModel
         {
             Text = props.TryGetValue("Text", out var text)
                 ? text?.ToString()
                 : string.Empty
-        });
+        };
     }
 
-    public static FiberNode Button(IDictionary<string, object?> props, FiberNode[] children)
+    public static ViewModelFactory Button(IDictionary<string, object?> props, ViewModelFactory[] children)
     {
         props.TryGetValue("OnClick", out var onClick);
-        return new(() => new ButtonViewModel(() => ((dynamic)onClick!)())
+        return () => new ButtonViewModel(() => ((dynamic)onClick!)())
         {
             Text = props.TryGetValue("Text", out var text)
                 ? text?.ToString()
                 : string.Empty,
-        });
+        };
     }
 
-    public static FiberNode Container(IDictionary<string, object?> props, FiberNode[] children)
+    public static ViewModelFactory Container(IDictionary<string, object?> props, ViewModelFactory[] children)
     {
-        return new(() =>
+        return () =>
             new ContainerViewModel(
-                children.Select(child => child.Execute()).ToArray()
-            ));
+                children.Select(child => child()).ToArray()
+            );
     }
 }

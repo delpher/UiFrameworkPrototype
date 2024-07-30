@@ -26,6 +26,7 @@ public class StateManager(IRootController rootController)
             throw new InvalidOperationException("UseState can only be called inside component");
 
         return _current.UseStateImpl(initialState);
+        // return (initialState, _ => { });
     }
 
     public static void SetCurrent(StateManager stateManager)

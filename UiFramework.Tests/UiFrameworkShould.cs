@@ -15,7 +15,7 @@ public class UiFrameworkShould
     {
         _testAppViewModel = new();
         _root = UiFactory.CreateRoot(_testAppViewModel, nameof(_testAppViewModel.Content));
-        _f = new(_root);
+        _f = new();
     }
 
     [Fact]
@@ -65,7 +65,7 @@ public class UiFrameworkShould
 
         return;
 
-        FiberNode CustomComponent(dynamic props, params FiberNode[] children)
+        ViewModelFactory CustomComponent(dynamic props, params ViewModelFactory[] children)
         {
             var (text, setText) = UseState("default text");
             return CreateElement(Container, null,
@@ -75,7 +75,7 @@ public class UiFrameworkShould
         }
     }
 
-    private void Render(FiberNode element)
+    private void Render(ViewModelFactory element)
     {
         _root.Render(element);
     }
@@ -85,10 +85,10 @@ public class UiFrameworkShould
         return _testAppViewModel.Content.As<T>()!;
     }
 
-    private FiberNode CreateElement(
+    private ViewModelFactory CreateElement(
         ElementDefinition element,
         dynamic? props = null,
-        params FiberNode[] children)
+        params ViewModelFactory[] children)
     {
         return _f.CreateElement(element, props, children);
     }
