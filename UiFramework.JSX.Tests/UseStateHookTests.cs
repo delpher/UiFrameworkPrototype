@@ -1,4 +1,4 @@
-﻿using UiFramework.Elements;
+﻿using UiFramework.Primitives;
 using Xunit.Abstractions;
 
 namespace UiFramework.JSX.Tests;
@@ -37,7 +37,7 @@ public class UseStateHookTests(ITestOutputHelper output)
     {
         ViewEngine.Render("""
                           function StateComponent() {
-                                const [items, setItems] = useState([0, 1]);
+                                const [items, setItems] = useState([]);
                                 
                                 return <Container>
                                     {items.map(i => <Text text={i} />)}
@@ -85,5 +85,35 @@ public class UseStateHookTests(ITestOutputHelper output)
 
         ViewModel.Content.As<ContainerViewModel>().Children[^1].As<ButtonViewModel>().Click.Execute(null);
         ViewModel.Content.As<ContainerViewModel>().Children[0].As<TextViewModel>().Text.Should().Be("state B");
+    }
+
+    [Fact]
+    public void State_Cleanup_Test()
+    {
+        ViewEngine.ExposeApi("crypto", new { generateUUID = new Func<string>(() => Guid.NewGuid().ToString())});
+
+        ViewEngine.Render("""
+                          function Component() {
+                              const [state] = useState(crypto.generateUUID());
+                              return <Text text={state} />
+                          }
+
+                          function App() {
+                                const [show, setShow] = useState(true);
+                                
+                                return <Container>
+                                    {show && <Component />}
+                                    <Button onClick={() => setShow(!show)} />
+                               </Container>
+                          }
+
+                          <App />
+                          """);
+
+        var initialText = ViewModel.Content.As<ContainerViewModel>().Children[0].As<TextViewModel>().Text;
+        ViewModel.Content.As<ContainerViewModel>().Children[^1].As<ButtonViewModel>().Click.Execute(null);
+        ViewModel.Content.As<ContainerViewModel>().Children[^1].As<ButtonViewModel>().Click.Execute(null);
+        ViewModel.Content.As<ContainerViewModel>().Children[0].As<TextViewModel>().Text.Should().NotBe(initialText);
+
     }
 }

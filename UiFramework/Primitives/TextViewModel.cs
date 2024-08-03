@@ -1,4 +1,4 @@
-﻿namespace UiFramework.Elements;
+﻿namespace UiFramework.Primitives;
 
 public class TextViewModel
 {

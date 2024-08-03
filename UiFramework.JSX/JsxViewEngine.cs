@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
 using Microsoft.ClearScript.V8;
-using UiFramework.Elements;
 using UiFramework.JSX.JavaScriptApis;
+using UiFramework.Primitives;
 
 namespace UiFramework.JSX;
 
@@ -27,6 +27,11 @@ public class JsxViewEngine(RootController rootController) : IDisposable
         rootController.Render((ElementFactory)_jsEngine.Evaluate(compiledScript));
     }
 
+    public void ExposeApi(string name, object api)
+    {
+        _jsEngine.AddHostObject(name, api);
+    }
+
     private void EnsureInitialized()
     {
         if (_initialized) return;
@@ -44,8 +49,8 @@ public class JsxViewEngine(RootController rootController) : IDisposable
     private void ExposeComponents()
     {
         _jsEngine.ExposeHostObjectStaticMembers = true;
-        _jsEngine.AddHostObject("Components", new Components());
-        foreach (var methodInfo in typeof(Components).GetMethods(BindingFlags.Static | BindingFlags.Public))
+        _jsEngine.AddHostObject("Components", new Elements());
+        foreach (var methodInfo in typeof(Elements).GetMethods(BindingFlags.Static | BindingFlags.Public))
         {
             _jsEngine.AddHostObject(methodInfo.Name,
                 methodInfo.CreateDelegate<Func<IDictionary<string, object?>, ViewModelFactory[], ViewModelFactory>>());

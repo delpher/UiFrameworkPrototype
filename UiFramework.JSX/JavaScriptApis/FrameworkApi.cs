@@ -23,8 +23,8 @@ public class FrameworkApi
             }).ToArray();
 
 
-        if (element is Func<IDictionary<string, object?>?, ElementFactory[]?, ElementFactory> component)
-            return Framework.CreateElement(new Component(component), adaptedProps, adaptedChildren);
+        if (element is Func<IDictionary<string, object?>?, ElementFactory?[]?, ElementFactory> component)
+            return Framework.CreateElement(new(component), adaptedProps, adaptedChildren);
 
         if (element is Func<IDictionary<string, object?>?, ViewModelFactory[], ViewModelFactory> primitive)
             return Framework.CreateElement(new Primitive(primitive), adaptedProps, adaptedChildren);
@@ -36,7 +36,7 @@ public class FrameworkApi
         throw new InvalidOperationException("Failed to convert element to Element delegate");
     }
 
-    public object[] useState(object initialState)
+    public object?[] useState(object initialState)
     {
         var (state, setState) = UseState(initialState);
         return [state, setState];

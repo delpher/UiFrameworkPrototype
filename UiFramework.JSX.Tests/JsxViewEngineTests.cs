@@ -1,4 +1,4 @@
-﻿using UiFramework.Elements;
+﻿using UiFramework.Primitives;
 
 namespace UiFramework.JSX.Tests;
 

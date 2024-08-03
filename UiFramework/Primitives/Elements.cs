@@ -1,6 +1,6 @@
-﻿namespace UiFramework.Elements;
+﻿namespace UiFramework.Primitives;
 
-public class Components
+public class Elements
 {
     public static ViewModelFactory Text(IDictionary<string, object?> props, ViewModelFactory[] children)
     {

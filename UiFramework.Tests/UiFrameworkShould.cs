@@ -1,6 +1,6 @@
 using FluentAssertions;
-using UiFramework.Elements;
-using static UiFramework.Elements.Components;
+using UiFramework.Primitives;
+using static UiFramework.Primitives.Elements;
 using static UiFramework.Framework;
 using static UiFramework.StateManager;
 

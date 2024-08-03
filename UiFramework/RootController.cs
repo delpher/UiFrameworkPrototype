@@ -1,71 +1,26 @@
-﻿using System.Diagnostics;
+﻿namespace UiFramework;
 
-namespace UiFramework;
-
-public class StateManager
-{
-    private readonly List<object?> _states = [];
-    private int _stateIndex = -1;
-
-    private static StateManager? _current;
-    private Action _renderer = () => { };
-
-    public static void SetCurrent(StateManager stateManager)
-    {
-        _current = stateManager;
-    }
-
-    public static (object?, Action<object>) UseState(object initialState)
-    {
-        return _current!.UseStateImpl(initialState);
-    }
-
-    private (object?, Action<object?>) UseStateImpl(object initialState)
-    {
-        var memoizedIndex = _stateIndex;
-
-        _states[memoizedIndex] ??= initialState;
-
-        return (_states[memoizedIndex], state =>
-        {
-            _states[memoizedIndex] = state;
-            _renderer();
-        });
-    }
-
-    public void AdvanceState()
-    {
-        _stateIndex++;
-        if (_states.Count == _stateIndex) _states.Add(null);
-    }
-
-    public void Reset()
-    {
-        _stateIndex = -1;
-    }
-
-    public void SetRenderer(Action renderer)
-    {
-        _renderer = renderer;
-    }
-}
-
-public class RootController(Action<object> output)
+public class RootController(Action<object?> output)
 {
     private Action _renderer = null!;
     private StateManager _stateManager = new();
 
-    public void Render(ElementFactory elementFactory)
+    public void Render(ElementFactory element)
     {
         _stateManager = new();
-        StateManager.SetCurrent(_stateManager);
-        _renderer = () =>
+            _renderer = CreateRenderer(element);
+            _stateManager.OnStateUpdated(_renderer);
+            _renderer();
+    }
+
+    private Action CreateRenderer(ElementFactory elementFactory)
+    {
+        return () =>
         {
             _stateManager.Reset();
-            output(CreateViewModel(elementFactory()));
+            using (StateManager.LockTo(_stateManager))
+                output(CreateViewModel(elementFactory()));
         };
-        _stateManager.SetRenderer(_renderer);
-        _renderer();
     }
 
     private object? CreateViewModel(Element? element)
