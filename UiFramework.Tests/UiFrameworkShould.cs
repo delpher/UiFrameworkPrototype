@@ -2,7 +2,6 @@ using FluentAssertions;
 using UiFramework.Primitives;
 using static UiFramework.Primitives.Elements;
 using static UiFramework.Framework;
-using static UiFramework.StateManager;
 
 namespace UiFramework.Tests;
 

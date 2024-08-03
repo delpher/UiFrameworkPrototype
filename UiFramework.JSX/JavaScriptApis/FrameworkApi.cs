@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using Microsoft.ClearScript;
-using static UiFramework.StateManager;
+using static UiFramework.Framework;
 
 namespace UiFramework.JSX.JavaScriptApis;
 

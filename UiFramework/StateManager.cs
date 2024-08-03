@@ -1,6 +1,6 @@
 ﻿namespace UiFramework;
 
-public class StateManager
+internal class StateManager
 {
     private static readonly Mutex Lock = new();
     private static StateManager? _current;
@@ -21,10 +21,10 @@ public class StateManager
         public void Dispose() => Lock.ReleaseMutex();
     }
 
-    public static (object?, Action<object>) UseState(object initialState) =>
+    public static (object?, Action<object?>) UseState(object? initialState) =>
         _current!.UseStateImpl(initialState);
 
-    private (object?, Action<object?>) UseStateImpl(object initialState)
+    private (object?, Action<object?>) UseStateImpl(object? initialState)
     {
         _stateAbandoned = false;
         _states.TryAdd(_stateIndex, initialState);

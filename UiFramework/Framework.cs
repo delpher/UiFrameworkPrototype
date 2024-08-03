@@ -18,7 +18,7 @@ public static class Framework
     public static ElementFactory CreateElement(
         Primitive primitive,
         IDictionary<string, object?>? props,
-        params ElementFactory[] children) =>
+        params ElementFactory?[] children) =>
         () => new()
         {
             Type = primitive,
@@ -29,12 +29,20 @@ public static class Framework
     public static ElementFactory CreateElement(
         Component component,
         dynamic? props = null,
-        params ElementFactory[] children) =>
+        params ElementFactory?[] children) =>
         CreateElement(component, DynamicExtensions.GetProperties(props), children);
 
     public static ElementFactory CreateElement(
         Primitive primitive,
         dynamic? props = null,
-        params ElementFactory[] children) =>
+        params ElementFactory?[] children) =>
         CreateElement(primitive, DynamicExtensions.GetProperties(props), children);
+
+    public static (object?, Action<object>) UseState(object initialState) => StateManager.UseState(initialState);
+
+    public static (T?, Action<T?>) UseState<T>(T? initialState)
+    {
+        var (state, update) = StateManager.UseState(initialState);
+        return ((T?)state, value => update(value));
+    }
 }
