@@ -84,32 +84,29 @@ public class RootControllerTests
     [Fact]
     public void Render_Component()
     {
-        IDictionary<string,object?>? props = new Dictionary<string, object?>();
+        IDictionary<string,object?> props = new Dictionary<string, object?>();
         ElementFactory[] children = [];
 
         _root.Render(CreateElement(FunctionComponent, props, children));
 
         _output.ViewModel.Should().NotBeNull();
+        return;
 
-        ElementFactory FunctionComponent(IDictionary<string, object?> props, params ElementFactory[] children)
-        {
-            return CreateElement(TestPrimitive);
-        }
+        ElementFactory FunctionComponent(IDictionary<string, object?>? p, params ElementFactory?[] c) =>
+            CreateElement(TestPrimitive);
     }
 
     private class TestOutput
     {
-        public TestViewModel? ViewModel { get; set; }
+        public TestViewModel? ViewModel { get; private set; }
 
-        public void Output(object viewModel)
-        {
-            ViewModel = (TestViewModel)viewModel;
-        }
+        public void Output(object? viewModel) =>
+            ViewModel = viewModel as TestViewModel;
     }
 
     private class TestViewModel
     {
-        public object[]? Children { get; set; }
-        public IDictionary<string,object?>? Props { get; set; }
+        public object?[]? Children { get; init; }
+        public IDictionary<string,object?>? Props { get; init; }
     }
 }

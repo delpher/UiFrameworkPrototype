@@ -71,7 +71,7 @@ public class UiFrameworkShould
         {
             var (text, setText) = UseState("default text");
             return CreateElement(Container, null,
-                CreateElement(Text, new { text = text }),
+                CreateElement(Text, new { text }),
                 CreateElement(Button, new { onClick = new Action(() => setText("button clicked")) })
             );
         }

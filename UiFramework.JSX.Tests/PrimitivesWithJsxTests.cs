@@ -1,10 +1,11 @@
-﻿using UiFramework.Primitives;
+﻿using UiFramework.JSX.Tests.Helpers;
+using UiFramework.Primitives;
 
 namespace UiFramework.JSX.Tests;
 
-public class PrimitivesTests(JsxViewEngineTestFixture fixture) : IClassFixture<JsxViewEngineTestFixture>
+public class PrimitivesWithJsxTests(JsxViewEngineTestFixture fixture) : IClassFixture<JsxViewEngineTestFixture>
 {
-    private Primitives ViewEngine { get; } = fixture.ViewEngine;
+    private JsxViewEngine ViewEngine { get; } = fixture.ViewEngine;
     private TestViewModel ViewModel { get; } = fixture.ViewModel;
 
     [Fact]

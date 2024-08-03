@@ -1,11 +1,6 @@
 ﻿namespace UiFramework.Primitives;
 
-public class ContainerViewModel
+public class ContainerViewModel(object?[] children)
 {
-    public ContainerViewModel(object?[] children)
-    {
-        Children = children;
-    }
-
-    public object?[] Children { get; }
+    public object?[] Children { get; } = children;
 }

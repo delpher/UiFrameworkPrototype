@@ -5,7 +5,7 @@ using UiFramework.Primitives;
 
 namespace UiFramework.JSX;
 
-public class Primitives(RootController rootController) : IDisposable
+public class JsxViewEngine(RootController rootController) : IDisposable
 {
     private bool _initialized;
 
@@ -43,7 +43,7 @@ public class Primitives(RootController rootController) : IDisposable
     private void AddFrameworkApi()
     {
         _jsEngine.AddHostObject("Framework", new FrameworkApi());
-        _jsEngine.Execute(ScriptResources.Read("api-bridge.js"));
+        _jsEngine.Execute(ScriptResources.Read("JavaScriptApis.framework-api.js"));
     }
 
     private void ExposeComponents()
@@ -51,10 +51,8 @@ public class Primitives(RootController rootController) : IDisposable
         _jsEngine.ExposeHostObjectStaticMembers = true;
         _jsEngine.AddHostObject("Components", new Elements());
         foreach (var methodInfo in typeof(Elements).GetMethods(BindingFlags.Static | BindingFlags.Public))
-        {
             _jsEngine.AddHostObject(methodInfo.Name,
                 methodInfo.CreateDelegate<Func<IDictionary<string, object?>, ViewModelFactory[], ViewModelFactory>>());
-        }
     }
 
     public void Dispose()
@@ -64,7 +62,7 @@ public class Primitives(RootController rootController) : IDisposable
         GC.SuppressFinalize(this);
     }
 
-    public Primitives SetDebugOutput(Action<object> output)
+    public JsxViewEngine WithDebugOutput(Action<object> output)
     {
         _jsEngine.AddHostObject("DebugOutput", output);
         return this;

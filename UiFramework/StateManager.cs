@@ -27,10 +27,9 @@ public class StateManager
     private (object?, Action<object?>) UseStateImpl(object initialState)
     {
         _stateAbandoned = false;
+        _states.TryAdd(_stateIndex, initialState);
+
         var memoizedIndex = _stateIndex;
-
-        _states.TryAdd(memoizedIndex, initialState);
-
         return (_states[memoizedIndex], state =>
         {
             _states[memoizedIndex] = state;

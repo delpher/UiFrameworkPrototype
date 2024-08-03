@@ -1,4 +1,5 @@
-﻿using UiFramework.Primitives;
+﻿using UiFramework.JSX.Tests.Helpers;
+using UiFramework.Primitives;
 using Xunit.Abstractions;
 
 namespace UiFramework.JSX.Tests;
@@ -6,8 +7,8 @@ namespace UiFramework.JSX.Tests;
 public class FunctionalComponentTests(ITestOutputHelper output)
 {
     private readonly JsxViewEngineTestFixture _fixture = new();
-    private Primitives ViewEngine =>
-        _fixture.ViewEngine.SetDebugOutput(value => output.WriteLine(value.ToString()));
+    private JsxViewEngine ViewEngine =>
+        _fixture.ViewEngine.WithDebugOutput(value => output.WriteLine(value.ToString()));
 
     private TestViewModel ViewModel => _fixture.ViewModel;
 

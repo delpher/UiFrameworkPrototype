@@ -1,9 +1,9 @@
-﻿namespace UiFramework.JSX.Tests;
+﻿namespace UiFramework.JSX.Tests.Helpers;
 
 public class JsxViewEngineTestFixture : IDisposable
 {
     public readonly TestViewModel ViewModel;
-    public readonly Primitives ViewEngine;
+    public readonly JsxViewEngine ViewEngine;
 
     public JsxViewEngineTestFixture()
     {

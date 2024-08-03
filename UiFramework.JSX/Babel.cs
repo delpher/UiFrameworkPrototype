@@ -8,8 +8,7 @@ public class Babel : IDisposable
 
     public string Transform(string sourceJs)
     {
-        var babelScript = ScriptResources.Read("babel.min.js");
-        _engine.Execute(babelScript);
+        _engine.Execute(ScriptResources.Read("babel.min.js"));
         _engine.AddHostObject("ScriptSource", new { script = sourceJs });
         return (string)_engine.Evaluate("Babel.transform(ScriptSource.script, {presets: ['react','env']}).code");
     }

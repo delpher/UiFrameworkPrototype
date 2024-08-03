@@ -1,4 +1,4 @@
-﻿namespace UiFramework.JSX.Tests;
+﻿namespace UiFramework.JSX.Tests.Helpers;
 
 public class TestViewModel
 {

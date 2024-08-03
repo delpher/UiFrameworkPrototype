@@ -12,8 +12,8 @@
     
     <ItemGroup>
         <EmbeddedResource Include="babel.min.js" />
+        <EmbeddedResource Include="JavaScriptApis\framework-api.js" />
         <None Remove="react-bridge.js" />
-        <EmbeddedResource Include="api-bridge.js" />
     </ItemGroup>
     
     <ItemGroup>
