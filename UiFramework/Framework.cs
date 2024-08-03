@@ -7,28 +7,24 @@ public static class Framework
     public static ElementFactory CreateElement(
         Component component,
         IDictionary<string, object?>? props,
-        params ElementFactory[] children)
-    {
-        return () => new()
+        params ElementFactory[] children) =>
+        () => new()
         {
             Type = component,
             Props = props,
             Children = children
         };
-    }
 
     public static ElementFactory CreateElement(
         Primitive primitive,
         IDictionary<string, object?>? props,
-        params ElementFactory[] children)
-    {
-        return () => new()
+        params ElementFactory[] children) =>
+        () => new()
         {
             Type = primitive,
             Props = props,
             Children = children
         };
-    }
 
     public static ElementFactory CreateElement(
         Component component,

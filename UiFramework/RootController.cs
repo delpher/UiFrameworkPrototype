@@ -8,44 +8,37 @@ public class RootController(Action<object?> output)
     public void Render(ElementFactory element)
     {
         _stateManager = new();
-            _renderer = CreateRenderer(element);
-            _stateManager.OnStateUpdated(_renderer);
-            _renderer();
+        _renderer = CreateRenderer(element);
+        _stateManager.OnStateUpdated(_renderer);
+        _renderer();
     }
 
-    private Action CreateRenderer(ElementFactory elementFactory)
-    {
-        return () =>
+    private Action CreateRenderer(ElementFactory elementFactory) =>
+        () =>
         {
             _stateManager.Reset();
             using (StateManager.LockTo(_stateManager))
-                output(CreateViewModel(elementFactory()));
+                output(Render(elementFactory()));
         };
-    }
 
-    private object? CreateViewModel(Element? element)
+    private object? Render(Element? element)
     {
         _stateManager.AdvanceState();
         if (element == null) return null;
 
         var props = element.Props ?? new Dictionary<string, object?>();
         var children = element.Children ?? [];
-        switch (element.Type)
+        return element.Type switch
         {
-            case Primitive primitive:
-            {
-                var viewModelFactories = children
-                    .Select(child =>
-                        new ViewModelFactory(() => CreateViewModel(child?.Invoke())))
-                    .ToArray();
-                return primitive(props, viewModelFactories)();
-            }
-            case Component component:
-                return CreateViewModel(component(props, children)());
-            default:
-                throw new NotSupportedException($"Element of type '{element.GetType().Name}' is not supported");
-        }
+            Primitive primitive => primitive(props, RenderChildren(children))(),
+            Component component => Render(component(props, children)()),
+            _ => throw new NotSupportedException($"Element of type '{element.GetType().Name}' is not supported")
+        };
     }
 
-    public void Render() => _renderer();
+    private ViewModelFactory[] RenderChildren(ElementFactory?[] children) =>
+        children.Select(RenderElement).ToArray();
+
+    private ViewModelFactory RenderElement(ElementFactory? child) =>
+        () => Render(child?.Invoke());
 }

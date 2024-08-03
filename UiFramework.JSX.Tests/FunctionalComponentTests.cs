@@ -28,11 +28,31 @@ public class FunctionalComponentTests(ITestOutputHelper output)
     {
         ViewEngine.Render("""
                           function CustomComponent(props) {
-                            DebugOutput(JSON.stringify(props));
                              return <Text text={props.title} />
                           }
                           <CustomComponent title="Test text" />
                           """);
         ViewModel.Content.As<TextViewModel>().Text.Should().Be("Test text");
+    }
+
+    [Fact]
+    public void Passing_Children_Test()
+    {
+        ViewEngine.Render("""
+                          function CustomComponent(props, children) {
+                             return <Container>{children}</Container>
+                          }
+                          <CustomComponent>
+                            <Text text="first" />
+                            <Text text="second" />
+                          </CustomComponent>
+                          """);
+
+        ViewModel.Content.As<ContainerViewModel>()
+            .Children.Should().HaveCount(2)
+            .And.SatisfyRespectively(
+                first => first.As<TextViewModel>().Text.Should().Be("first"),
+                second => second.As<TextViewModel>().Text.Should().Be("second")
+            );
     }
 }

@@ -2,15 +2,13 @@
 
 public class Elements
 {
-    public static ViewModelFactory Text(IDictionary<string, object?> props, ViewModelFactory[] children)
-    {
-        return () => new TextViewModel
+    public static ViewModelFactory Text(IDictionary<string, object?> props, ViewModelFactory[] children) =>
+        () => new TextViewModel
         {
             Text = props.TryGetValue("text", out var text)
                 ? text?.ToString()
                 : string.Empty
         };
-    }
 
     public static ViewModelFactory Button(IDictionary<string, object?> props, ViewModelFactory[] children)
     {
@@ -23,12 +21,14 @@ public class Elements
         };
     }
 
-    public static ViewModelFactory Container(IDictionary<string, object?>? props, ViewModelFactory[] children)
+    public static ViewModelFactory Container(IDictionary<string, object?>? props, ViewModelFactory[] children) =>
+        () => new ContainerViewModel(CommitChildren(children));
+
+    private static object?[] CommitChildren(ViewModelFactory[] children)
     {
-        return () =>
-            new ContainerViewModel(
-                children.Select(child => child.Invoke())
-                    .Where(viewModel => viewModel != null).ToArray()
-            );
+        return children
+            .Select(child => child.Invoke())
+            .Where(viewModel => viewModel != null)
+            .ToArray();
     }
 }
