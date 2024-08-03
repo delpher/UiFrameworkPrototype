@@ -3,7 +3,7 @@ using static UiFramework.Framework;
 
 namespace UiFramework.Tests;
 
-public class RootControllerTests
+public class RootControllerShould
 {
     private readonly TestOutput _output;
     private readonly RootController _root;
@@ -16,7 +16,7 @@ public class RootControllerTests
                 Props = props
             };
 
-    public RootControllerTests()
+    public RootControllerShould()
     {
         _output = new();
         _root = new(_output.Output);

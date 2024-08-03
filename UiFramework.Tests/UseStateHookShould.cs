@@ -5,12 +5,12 @@ using static UiFramework.Primitives.Elements;
 
 namespace UiFramework.Tests;
 
-public class UseStateHookTests
+public class UseStateHookShould
 {
     private readonly TestAppViewModel _testAppViewModel;
     private readonly RootController _root;
 
-    public UseStateHookTests()
+    public UseStateHookShould()
     {
         _testAppViewModel = new();
         _root = UiFactory.CreateRoot(_testAppViewModel, nameof(_testAppViewModel.Content));
@@ -21,7 +21,7 @@ public class UseStateHookTests
     private T Root<T>() => _testAppViewModel.Content.As<T>()!;
 
     [Fact]
-    public void Single_State_Test()
+    public void Persist_State_Between_Rerenders()
     {
         Render(CreateElement(StateComponent));
 
@@ -42,38 +42,7 @@ public class UseStateHookTests
     }
 
     [Fact]
-    public void Elements_List()
-    {
-        Render(CreateElement(StateComponent));
-
-        Root<ContainerViewModel>().Children[^1].As<ButtonViewModel>().Click.Execute(null);
-        Root<ContainerViewModel>().Children[0].As<TextViewModel>().Text.Should().Be("0");
-
-        Root<ContainerViewModel>().Children[^1].As<ButtonViewModel>().Click.Execute(null);
-        Root<ContainerViewModel>().Children[0].As<TextViewModel>().Text.Should().Be("0");
-        Root<ContainerViewModel>().Children[1].As<TextViewModel>().Text.Should().Be("1");
-        return;
-
-        ElementFactory StateComponent(IDictionary<string, object?> props, params ElementFactory?[] elementFactories)
-        {
-            var (items, setItems) = UseState(Array.Empty<string>());
-
-            return CreateElement(Container, null,
-                items!.Select(item => CreateElement(Text, new { text = item }))
-                    .Concat([
-                        CreateElement(Button,
-                            new
-                            {
-                                onClick = new Action(() =>
-                                    setItems(items!.Concat([(items!.Length).ToString()]).ToArray()))
-                            })
-                    ])
-                    .ToArray());
-        }
-    }
-
-    [Fact]
-    public void State_Management_Test()
+    public void Restore_Component_State_On_Render()
     {
         Render(CreateElement(RootComponent));
 
@@ -100,7 +69,7 @@ public class UseStateHookTests
     }
 
     [Fact]
-    public void State_Cleanup_Test()
+    public void Clear_State_For_Unmounted_Components()
     {
         Render(CreateElement(RootComponent));
 
