@@ -17,7 +17,7 @@ public class Elements
         {
             Text = props.TryGetValue("text", out var text)
                 ? text?.ToString()
-                : string.Empty,
+                : string.Empty
         };
     }
 
