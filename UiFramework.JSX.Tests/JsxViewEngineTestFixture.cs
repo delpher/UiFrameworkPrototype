@@ -3,7 +3,7 @@
 public class JsxViewEngineTestFixture : IDisposable
 {
     public readonly TestViewModel ViewModel;
-    public readonly JsxViewEngine ViewEngine;
+    public readonly Primitives ViewEngine;
 
     public JsxViewEngineTestFixture()
     {

@@ -6,7 +6,7 @@ namespace UiFramework.JSX.Tests;
 public class UseStateHookTests(ITestOutputHelper output)
 {
     private readonly JsxViewEngineTestFixture _fixture = new();
-    private JsxViewEngine ViewEngine =>
+    private Primitives ViewEngine =>
         _fixture.ViewEngine.SetDebugOutput(value => output.WriteLine(value.ToString()));
 
     private TestViewModel ViewModel => _fixture.ViewModel;
@@ -60,13 +60,8 @@ public class UseStateHookTests(ITestOutputHelper output)
     public void State_Management_Test()
     {
         ViewEngine.Render("""
-                          function ComponentA() {
-                              const [state] = useState('state A');
-                              return <Text text={state} />
-                          }
-                          
-                          function ComponentB() {
-                              const [state] = useState('state B');
+                          function Component({name}) {
+                              const [state] = useState(name);
                               return <Text text={state} />
                           }
                           
@@ -74,8 +69,8 @@ public class UseStateHookTests(ITestOutputHelper output)
                                 const [showA, setShowA] = useState(true);
                                 
                                 return <Container>
-                                    {showA && <ComponentA />}
-                                    <ComponentB />
+                                    {showA && <Component name="A" />}
+                                    <Component name="B" />
                                     <Button onClick={() => setShowA(false)} />
                                </Container>
                           }
@@ -84,7 +79,7 @@ public class UseStateHookTests(ITestOutputHelper output)
                           """);
 
         ViewModel.Content.As<ContainerViewModel>().Children[^1].As<ButtonViewModel>().Click.Execute(null);
-        ViewModel.Content.As<ContainerViewModel>().Children[0].As<TextViewModel>().Text.Should().Be("state B");
+        ViewModel.Content.As<ContainerViewModel>().Children[0].As<TextViewModel>().Text.Should().Be("B");
     }
 
     [Fact]

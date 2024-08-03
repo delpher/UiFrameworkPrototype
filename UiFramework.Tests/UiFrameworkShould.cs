@@ -20,7 +20,7 @@ public class UiFrameworkShould
     [Fact]
     public void Render_Text()
     {
-        Render(CreateElement(Text, new { Text = "Some text" }));
+        Render(CreateElement(Text, new { text = "Some text" }));
         Root<TextViewModel>().Text.Should().Be("Some text");
     }
 
@@ -30,7 +30,7 @@ public class UiFrameworkShould
         var text = string.Empty;
 
         Render(CreateElement(Button,
-            new { Text = "Click me", OnClick = new Action(() => text = "Button clicked") }));
+            new { text = "Click me", onClick = new Action(() => text = "Button clicked") }));
 
         Root<ButtonViewModel>().Text.Should().Be("Click me");
         Root<ButtonViewModel>().Click.Execute(null);
@@ -42,8 +42,8 @@ public class UiFrameworkShould
     {
         Render(
             CreateElement(Container, null, [
-                CreateElement(Button, new { Text = "The button" }),
-                CreateElement(Text, new { Text = "The text" })
+                CreateElement(Button, new { text = "The button" }),
+                CreateElement(Text, new { text = "The text" })
             ])
         );
 
@@ -71,8 +71,8 @@ public class UiFrameworkShould
         {
             var (text, setText) = UseState("default text");
             return CreateElement(Container, null,
-                CreateElement(Text, new { Text = text }),
-                CreateElement(Button, new { OnClick = new Action(() => setText("button clicked")) })
+                CreateElement(Text, new { text = text }),
+                CreateElement(Button, new { onClick = new Action(() => setText("button clicked")) })
             );
         }
     }

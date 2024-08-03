@@ -9,7 +9,7 @@ public partial class MainWindow
         InitializeComponent();
         var viewModel = new MainWindowViewModel();
         DataContext = viewModel;
-        var viewEngine = new JsxViewEngine(UiFactory.CreateRoot(viewModel, nameof(viewModel.Content)));
+        var viewEngine = new JSX.Primitives(UiFactory.CreateRoot(viewModel, nameof(viewModel.Content)));
         viewEngine.Render(App.ReadResource("index.jsx"));
     }
 }

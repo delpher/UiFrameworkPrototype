@@ -5,7 +5,7 @@ using UiFramework.Primitives;
 
 namespace UiFramework.JSX;
 
-public class JsxViewEngine(RootController rootController) : IDisposable
+public class Primitives(RootController rootController) : IDisposable
 {
     private bool _initialized;
 
@@ -64,7 +64,7 @@ public class JsxViewEngine(RootController rootController) : IDisposable
         GC.SuppressFinalize(this);
     }
 
-    public JsxViewEngine SetDebugOutput(Action<object> output)
+    public Primitives SetDebugOutput(Action<object> output)
     {
         _jsEngine.AddHostObject("DebugOutput", output);
         return this;

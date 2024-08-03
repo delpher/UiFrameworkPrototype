@@ -1,0 +1,38 @@
+﻿using UiFramework.Primitives;
+using Xunit.Abstractions;
+
+namespace UiFramework.JSX.Tests;
+
+public class FunctionalComponentTests(ITestOutputHelper output)
+{
+    private readonly JsxViewEngineTestFixture _fixture = new();
+    private Primitives ViewEngine =>
+        _fixture.ViewEngine.SetDebugOutput(value => output.WriteLine(value.ToString()));
+
+    private TestViewModel ViewModel => _fixture.ViewModel;
+
+    [Fact]
+    public void Render_Test()
+    {
+        ViewEngine.Render("""
+                          function CustomComponent() {
+                             return <Text text="Test text"/>
+                          }
+                          <CustomComponent />
+                          """);
+        ViewModel.Content.As<TextViewModel>().Text.Should().Be("Test text");
+    }
+
+    [Fact]
+    public void Passing_Props_Test()
+    {
+        ViewEngine.Render("""
+                          function CustomComponent(props) {
+                            DebugOutput(JSON.stringify(props));
+                             return <Text text={props.title} />
+                          }
+                          <CustomComponent title="Test text" />
+                          """);
+        ViewModel.Content.As<TextViewModel>().Text.Should().Be("Test text");
+    }
+}

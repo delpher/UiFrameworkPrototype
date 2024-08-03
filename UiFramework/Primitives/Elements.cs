@@ -6,7 +6,7 @@ public class Elements
     {
         return () => new TextViewModel
         {
-            Text = props.TryGetValue("Text", out var text)
+            Text = props.TryGetValue("text", out var text)
                 ? text?.ToString()
                 : string.Empty
         };
@@ -14,10 +14,10 @@ public class Elements
 
     public static ViewModelFactory Button(IDictionary<string, object?> props, ViewModelFactory[] children)
     {
-        props.TryGetValue("OnClick", out var onClick);
+        props.TryGetValue("onClick", out var onClick);
         return () => new ButtonViewModel(() => ((dynamic)onClick!)())
         {
-            Text = props.TryGetValue("Text", out var text)
+            Text = props.TryGetValue("text", out var text)
                 ? text?.ToString()
                 : string.Empty,
         };
