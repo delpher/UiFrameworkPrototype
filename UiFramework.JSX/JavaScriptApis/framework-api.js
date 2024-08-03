@@ -6,3 +6,4 @@
 })();
 
 const useState = Framework.useState;
+const useEffect = Framework.useEffect;

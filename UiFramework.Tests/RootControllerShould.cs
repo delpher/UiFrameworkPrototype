@@ -1,5 +1,4 @@
-﻿using FluentAssertions;
-using static UiFramework.Framework;
+﻿using static UiFramework.Framework;
 
 namespace UiFramework.Tests;
 

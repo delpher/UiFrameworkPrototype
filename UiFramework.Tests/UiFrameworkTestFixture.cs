@@ -1,6 +1,4 @@
-﻿using FluentAssertions;
-
-namespace UiFramework.Tests;
+﻿namespace UiFramework.Tests;
 
 public class UiFrameworkTestFixture
 {

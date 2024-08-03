@@ -58,4 +58,7 @@ public class FrameworkApi
         var (state, setState) = UseState(initialState);
         return [state, setState];
     }
+
+    public void useEffect(object effect, object dependencies) =>
+        UseEffect(() => ((dynamic)effect)(), (dependencies as IList<object>)?.ToArray() ?? []);
 }

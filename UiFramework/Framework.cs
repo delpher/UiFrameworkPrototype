@@ -1,4 +1,5 @@
-﻿using UiFramework.Primitives;
+﻿using UiFramework.Hooks;
+using UiFramework.Primitives;
 
 namespace UiFramework;
 
@@ -38,21 +39,12 @@ public static class Framework
         params ElementFactory?[] children) =>
         CreateElement(primitive, DynamicExtensions.GetProperties(props), children);
 
-    public static (object?, Action<object>) UseState(object initialState) => StateManager.UseState(initialState);
+    public static (object?, Action<object?>) UseState(object? initialState) =>
+        UseStateHook.UseState(initialState);
 
-    public static (T?, Action<T?>) UseState<T>(T? initialState)
-    {
-        var (state, update) = StateManager.UseState(initialState);
-        return ((T?)state, value => update(value));
-    }
+    public static (T?, Action<T?>) UseState<T>(T? initialState) =>
+        UseStateHook.UseState(initialState);
 
-    public static void UseEffect(Action effect, object[] dependencies)
-    {
-        var (state, update) = StateManager.UseState(null);
-        //if (!DependenciesComparer.AreSame(state as object[], dependencies)) effect();
-        if (Equals(dependencies[0], state)) return;
-
-        effect();
-        update(dependencies[0]);
-    }
+    public static void UseEffect(Action effect, object[] dependencies) =>
+        UseEffectHook.UseEffect(effect, dependencies);
 }
