@@ -2,7 +2,7 @@
 
 public class Components
 {
-    public static Element Text(IDictionary<string, object?> props, Element[] children)
+    public static ViewModelFactory Text(IDictionary<string, object?> props, ViewModelFactory[] children)
     {
         return () => new TextViewModel
         {
@@ -12,7 +12,7 @@ public class Components
         };
     }
 
-    public static Element Button(IDictionary<string, object?> props, Element[] children)
+    public static ViewModelFactory Button(IDictionary<string, object?> props, ViewModelFactory[] children)
     {
         props.TryGetValue("OnClick", out var onClick);
         return () => new ButtonViewModel(() => ((dynamic)onClick!)())
@@ -23,11 +23,12 @@ public class Components
         };
     }
 
-    public static Element Container(IDictionary<string, object?> props, Element[] children)
+    public static ViewModelFactory Container(IDictionary<string, object?>? props, ViewModelFactory[] children)
     {
         return () =>
             new ContainerViewModel(
-                children.Select(child => child()).ToArray()
+                children.Select(child => child.Invoke())
+                    .Where(viewModel => viewModel != null).ToArray()
             );
     }
 }

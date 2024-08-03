@@ -2,19 +2,43 @@
 
 namespace UiFramework;
 
-public class ElementFactory
+public static class Framework
 {
-    public Element CreateElement(
+    public static ElementFactory CreateElement(
         Component component,
         IDictionary<string, object?>? props,
-        params Element[] children)
+        params ElementFactory[] children)
     {
-        return () => component(props ?? new Dictionary<string, object?>(), children)();
+        return () => new()
+        {
+            Type = component,
+            Props = props,
+            Children = children
+        };
     }
 
-    public Element CreateElement(
+    public static ElementFactory CreateElement(
+        Primitive primitive,
+        IDictionary<string, object?>? props,
+        params ElementFactory[] children)
+    {
+        return () => new()
+        {
+            Type = primitive,
+            Props = props,
+            Children = children
+        };
+    }
+
+    public static ElementFactory CreateElement(
         Component component,
         dynamic? props = null,
-        params Element[] children) =>
+        params ElementFactory[] children) =>
         CreateElement(component, DynamicExtensions.GetProperties(props), children);
+
+    public static ElementFactory CreateElement(
+        Primitive primitive,
+        dynamic? props = null,
+        params ElementFactory[] children) =>
+        CreateElement(primitive, DynamicExtensions.GetProperties(props), children);
 }

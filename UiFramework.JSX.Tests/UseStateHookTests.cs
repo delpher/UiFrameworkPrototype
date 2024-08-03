@@ -37,7 +37,7 @@ public class UseStateHookTests(ITestOutputHelper output)
     {
         ViewEngine.Render("""
                           function StateComponent() {
-                                const [items, setItems] = useState([]);
+                                const [items, setItems] = useState([0, 1]);
                                 
                                 return <Container>
                                     {items.map(i => <Text text={i} />)}

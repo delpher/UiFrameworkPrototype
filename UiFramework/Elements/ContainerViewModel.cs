@@ -1,6 +1,11 @@
 ﻿namespace UiFramework.Elements;
 
-public class ContainerViewModel(object[] children)
+public class ContainerViewModel
 {
-    public object[] Children { get; } = children;
+    public ContainerViewModel(object?[] children)
+    {
+        Children = children;
+    }
+
+    public object?[] Children { get; }
 }

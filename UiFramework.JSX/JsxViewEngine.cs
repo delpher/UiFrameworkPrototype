@@ -24,7 +24,7 @@ public class JsxViewEngine(RootController rootController) : IDisposable
         var scriptSource = _babel.Transform(jsx);
         var compiledScript = _jsEngine.Compile(scriptSource);
 
-        rootController.Render(() => ((dynamic)_jsEngine.Evaluate(compiledScript))());
+        rootController.Render((ElementFactory)_jsEngine.Evaluate(compiledScript));
     }
 
     private void EnsureInitialized()
@@ -48,7 +48,7 @@ public class JsxViewEngine(RootController rootController) : IDisposable
         foreach (var methodInfo in typeof(Components).GetMethods(BindingFlags.Static | BindingFlags.Public))
         {
             _jsEngine.AddHostObject(methodInfo.Name,
-                methodInfo.CreateDelegate<Func<IDictionary<string, object?>, Element[], Element>>());
+                methodInfo.CreateDelegate<Func<IDictionary<string, object?>, ViewModelFactory[], ViewModelFactory>>());
         }
     }
 

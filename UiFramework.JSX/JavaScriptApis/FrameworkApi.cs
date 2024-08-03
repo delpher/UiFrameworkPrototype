@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using Microsoft.ClearScript;
+using static UiFramework.StateManager;
 
 namespace UiFramework.JSX.JavaScriptApis;
 
@@ -7,39 +8,37 @@ namespace UiFramework.JSX.JavaScriptApis;
 // ReSharper disable UnusedMember.Global
 // ReSharper disable MemberCanBePrivate.Global
 [SuppressMessage("Performance", "CA1822:Mark members as static")]
-public class FrameworkApi()
+public class FrameworkApi
 {
-    private readonly ElementFactory _elementFactory = new();
-
-    public Element createElement(object element, object props, object children)
+    public ElementFactory createElement(object element, object props, object children)
     {
-        Component? adaptedElement = null;
-
-        if (element is Func<IDictionary<string, object?>, Element[], Element> elementDefinition)
-            adaptedElement = new(elementDefinition);
-
-        if (element is ScriptObject)
-            adaptedElement = (p, c) => ((dynamic)element)(p, c);
-
-        if (adaptedElement == null)
-            throw new InvalidOperationException("Failed to convert element to ElementDefinition");
-
         var adaptedProps = (IDictionary<string, object?>)props;
 
         var adaptedChildren = (children as IList<object> ?? [])
             .SelectMany(child => child switch
             {
-                Element c => [c],
-                IList<object> c => c.Cast<Element>(),
-                _ => []
+                ElementFactory e => [e],
+                IList<object> elements => elements.Cast<ElementFactory>(),
+                _ => [default]
             }).ToArray();
 
-        return _elementFactory.CreateElement(adaptedElement, adaptedProps, adaptedChildren);
+
+        if (element is Func<IDictionary<string, object?>?, ElementFactory[]?, ElementFactory> component)
+            return Framework.CreateElement(new Component(component), adaptedProps, adaptedChildren);
+
+        if (element is Func<IDictionary<string, object?>?, ViewModelFactory[], ViewModelFactory> primitive)
+            return Framework.CreateElement(new Primitive(primitive), adaptedProps, adaptedChildren);
+
+        if (element is ScriptObject jsComponent)
+            return Framework.CreateElement(
+                (p, c) => (ElementFactory)jsComponent.InvokeAsFunction(p, c), adaptedProps, adaptedChildren);
+
+        throw new InvalidOperationException("Failed to convert element to Element delegate");
     }
 
     public object[] useState(object initialState)
     {
-        var (state, setState) = StateManager.UseState(initialState);
+        var (state, setState) = UseState(initialState);
         return [state, setState];
     }
 }
