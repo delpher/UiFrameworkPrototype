@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+﻿using System.ComponentModel;
+using FluentAssertions;
 using UiFramework.Primitives;
 using static UiFramework.Framework;
 using static UiFramework.Primitives.Elements;
@@ -17,7 +18,6 @@ public class UseStateHookShould
     }
 
     private void Render(ElementFactory element) => _root.Render(element);
-
     private T Root<T>() => _testAppViewModel.Content.As<T>()!;
 
     [Fact]
@@ -92,6 +92,34 @@ public class UseStateHookShould
             return CreateElement(Container, null,
                 show ? CreateElement(ItemComponent) : null,
                 CreateElement(Button, new { onClick = new Action(() => setShow(!show)) })
+            );
+        }
+    }
+
+    [Fact]
+    public void Manage_Multiple_States_For_Single_Component()
+    {
+        Render(CreateElement(RootComponent));
+
+        Root<ContainerViewModel>().Children[2].As<ButtonViewModel>().Click.Execute(null);
+        Root<ContainerViewModel>().Children[0].As<TextViewModel>().Text.Should().Be("state 1 updated");
+        Root<ContainerViewModel>().Children[1].As<TextViewModel>().Text.Should().Be("state 2");
+
+        Root<ContainerViewModel>().Children[3].As<ButtonViewModel>().Click.Execute(null);
+        Root<ContainerViewModel>().Children[0].As<TextViewModel>().Text.Should().Be("state 1 updated");
+        Root<ContainerViewModel>().Children[1].As<TextViewModel>().Text.Should().Be("state 2 updated");
+
+        return;
+        ElementFactory RootComponent(dynamic? props, params ElementFactory?[] elementFactories)
+        {
+            var (state1, setState1) = UseState("state 1");
+            var (state2, setState2) = UseState("state 2");
+
+            return CreateElement(Container, null,
+                CreateElement(Text, new { text = state1 }),
+                CreateElement(Text, new { text = state2 }),
+                CreateElement(Button, new { onClick = new Action(() => setState1("state 1 updated"))  }),
+                CreateElement(Button, new { onClick = new Action(() => setState2("state 2 updated"))  })
             );
         }
     }

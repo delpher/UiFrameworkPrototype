@@ -16,6 +16,9 @@ public class UiFrameworkShould
         _root = UiFactory.CreateRoot(_testAppViewModel, nameof(_testAppViewModel.Content));
     }
 
+    private void Render(ElementFactory element) => _root.Render(element);
+    private T Root<T>() => _testAppViewModel.Content.As<T>()!;
+
     [Fact]
     public void Render_Text()
     {
@@ -75,8 +78,4 @@ public class UiFrameworkShould
             );
         }
     }
-
-    private void Render(ElementFactory element) => _root.Render(element);
-
-    private T Root<T>() => _testAppViewModel.Content.As<T>()!;
 }

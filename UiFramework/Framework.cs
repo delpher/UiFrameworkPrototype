@@ -45,4 +45,14 @@ public static class Framework
         var (state, update) = StateManager.UseState(initialState);
         return ((T?)state, value => update(value));
     }
+
+    public static void UseEffect(Action effect, object[] dependencies)
+    {
+        var (state, update) = StateManager.UseState(null);
+        //if (!DependenciesComparer.AreSame(state as object[], dependencies)) effect();
+        if (Equals(dependencies[0], state)) return;
+
+        effect();
+        update(dependencies[0]);
+    }
 }
