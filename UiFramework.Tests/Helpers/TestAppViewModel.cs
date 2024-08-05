@@ -1,4 +1,4 @@
-﻿namespace UiFramework.Tests;
+﻿namespace UiFramework.Tests.Helpers;
 
 public class TestAppViewModel
 {

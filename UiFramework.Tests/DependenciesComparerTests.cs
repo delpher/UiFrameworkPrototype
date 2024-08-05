@@ -67,7 +67,9 @@ public class DependenciesComparerTests
 
     private struct TestStruct
     {
+        // ReSharper disable UnusedAutoPropertyAccessor.Local
         public string Name { get; set; }
         public int Id { get; set; }
+        // ReSharper restore UnusedAutoPropertyAccessor.Local
     }
 }
