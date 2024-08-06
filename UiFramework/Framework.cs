@@ -47,4 +47,12 @@ public static class Framework
 
     public static void UseEffect(Action effect, object[] dependencies) =>
         UseEffectHook.UseEffect(effect, dependencies);
+
+    public static Context CreateContext() =>
+        UseContextHook.CreateContext();
+
+    public static object? UseContext(Context context) =>
+        UseContextHook.UseContext(context);
+
+    public static readonly Primitive Fragment = Elements.Fragment;
 }

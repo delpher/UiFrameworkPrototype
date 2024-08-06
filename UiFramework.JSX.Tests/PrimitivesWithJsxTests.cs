@@ -16,6 +16,17 @@ public class PrimitivesWithJsxTests(JsxViewEngineTestFixture fixture) : IClassFi
     }
 
     [Fact]
+    public void Fragment_Test()
+    {
+        ViewEngine.Render("<><Text text=\"child 1\" /><Text text=\"child 2\" /></>");
+        ViewModel.Content.As<object[]>()
+            .Should().SatisfyRespectively(
+                first => first.As<TextViewModel>().Text.Should().Be("child 1"),
+                second => second.As<TextViewModel>().Text.Should().Be("child 2")
+            );
+    }
+
+    [Fact]
     public void Container_Test()
     {
         ViewEngine.Render("""

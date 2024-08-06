@@ -5,12 +5,12 @@ using static UiFramework.Framework;
 
 namespace UiFramework.Tests;
 
-public class UiFrameworkShould
+public class FrameworkShould
 {
     private readonly TestAppViewModel _testAppViewModel;
     private readonly RootController _root;
 
-    public UiFrameworkShould()
+    public FrameworkShould()
     {
         _testAppViewModel = new();
         _root = UiFactory.CreateRoot(_testAppViewModel, nameof(_testAppViewModel.Content));
@@ -77,5 +77,30 @@ public class UiFrameworkShould
                 CreateElement(Button, new { onClick = new Action(() => setText("button clicked")) })
             );
         }
+    }
+
+    [Fact]
+    public void Render_Fragment()
+    {
+        Render(CreateElement(Fragment, null,
+            CreateElement(Text, new {text = "child 1"}),
+            CreateElement(Text, new {text = "child 2"})
+        ));
+
+        Root<object[]>()
+            .Should().SatisfyRespectively(
+                first => first.As<TextViewModel>().Text.Should().Be("child 1"),
+                second => second.As<TextViewModel>().Text.Should().Be("child 2")
+            );
+    }
+
+    [Fact]
+    public void Render_Fragment_With_Single_Child()
+    {
+        Render(CreateElement(Fragment, null,
+            CreateElement(Text, new {text = "single child"})
+        ));
+
+        Root<TextViewModel>().Text.Should().Be("single child");
     }
 }

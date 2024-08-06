@@ -19,10 +19,12 @@ public class FrameworkApi
         {
             Func<IDictionary<string, object?>?, ElementFactory?[]?, ElementFactory> component =>
                 ElementFactoryFromComponent(component, adaptedProps, adaptedChildren),
+            Component component => CreateElement(component, adaptedProps, adaptedChildren),
             Func<IDictionary<string, object?>?, ViewModelFactory[], ViewModelFactory> primitive =>
                 ElementFactoryFromPrimitive(primitive, adaptedProps, adaptedChildren),
             ScriptObject jsComponent => ElementFactoryFromJsComponent(jsComponent, adaptedProps, adaptedChildren),
-            _ => throw new InvalidOperationException("Failed to convert element to Element delegate")
+            not null when element as Primitive == Framework.Fragment => ElementFromFragment(adaptedProps, adaptedChildren),
+            _ => throw new InvalidOperationException($"Failed to convert element of type {element?.GetType().Name} to Element delegate")
         };
     }
 
@@ -39,19 +41,22 @@ public class FrameworkApi
         ScriptObject jsComponent,
         IDictionary<string, object?> adaptedProps,
         ElementFactory[] adaptedChildren) =>
-        Framework.CreateElement(
+        CreateElement(
             (p, c) =>
                 (ElementFactory)jsComponent.InvokeAsFunction(p, c), adaptedProps, adaptedChildren);
 
     private static ElementFactory ElementFactoryFromPrimitive(
         Func<IDictionary<string, object?>?, ViewModelFactory[], ViewModelFactory> primitive,
         IDictionary<string, object?> adaptedProps, ElementFactory[] adaptedChildren) =>
-        Framework.CreateElement(new Primitive(primitive), adaptedProps, adaptedChildren);
+        CreateElement(new Primitive(primitive), adaptedProps, adaptedChildren);
 
     private static ElementFactory ElementFactoryFromComponent(
         Func<IDictionary<string, object?>?, ElementFactory?[]?, ElementFactory> component,
         IDictionary<string, object?> adaptedProps, ElementFactory[] adaptedChildren) =>
-        Framework.CreateElement(new(component), adaptedProps, adaptedChildren);
+        CreateElement(new(component), adaptedProps, adaptedChildren);
+
+    private static ElementFactory ElementFromFragment(IDictionary<string, object?> props, ElementFactory[] children) =>
+        CreateElement(Framework.Fragment, props, children);
 
     public object?[] useState(object initialState)
     {
@@ -61,4 +66,10 @@ public class FrameworkApi
 
     public void useEffect(object effect, object dependencies) =>
         UseEffect(() => ((dynamic)effect)(), (dependencies as IList<object>)?.ToArray() ?? []);
+
+    public readonly object Fragment = Framework.Fragment;
+
+    public Context createContext() => CreateContext();
+
+    public object? useContext(Context context) => UseContext(context);
 }
