@@ -1,5 +1,4 @@
 ﻿using UiFramework.Hooks;
-using UiFramework.Primitives;
 
 namespace UiFramework;
 
@@ -57,5 +56,5 @@ public static class Framework
     public static object? UseContext(Context context) =>
         UseContextHook.UseContext(context);
 
-    public static readonly Primitive Fragment = Elements.Fragment;
+    public static readonly Primitive Fragment = UiFramework.Fragment.CreateType();
 }

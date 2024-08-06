@@ -1,5 +1,5 @@
 ﻿using UiFramework.JSX.Tests.Helpers;
-using UiFramework.Primitives;
+using UiFramework.WPF;
 
 namespace UiFramework.JSX.Tests;
 

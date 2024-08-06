@@ -1,6 +1,6 @@
-﻿namespace UiFramework.Primitives;
+﻿namespace UiFramework.WPF;
 
-public class Elements
+public static class Elements
 {
     public static ViewModelFactory Text(IDictionary<string, object?> props, ViewModelFactory[] children) =>
         () => new TextViewModel
@@ -29,12 +29,4 @@ public class Elements
             .Select(child => child.Invoke())
             .Where(viewModel => viewModel != null)
             .ToArray();
-
-    public static ViewModelFactory Fragment(IDictionary<string, object?> props, ViewModelFactory[] children) =>
-        () =>
-        {
-            if (children.Length == 1) return children[0]();
-            return children.Select(c => c())
-                .Where(vm => vm != null).ToArray();
-        };
 }

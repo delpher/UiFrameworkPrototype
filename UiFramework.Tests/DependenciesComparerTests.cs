@@ -59,10 +59,10 @@ public class DependenciesComparerTests
     public void Deep_Equality_Test() =>
         DependenciesComparer.AreSame([
             new TestStruct { Id = 1, Name = "first" },
-            new TestStruct { Id = 2, Name = "second" },
+            new TestStruct { Id = 2, Name = "second" }
         ], [
             new TestStruct { Id = 1, Name = "first" },
-            new TestStruct { Id = 2, Name = "second" },
+            new TestStruct { Id = 2, Name = "second" }
         ]).Should().BeTrue();
 
     private struct TestStruct

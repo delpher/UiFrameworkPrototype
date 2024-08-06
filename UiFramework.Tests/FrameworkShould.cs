@@ -1,6 +1,6 @@
-using UiFramework.Primitives;
 using UiFramework.Tests.Helpers;
-using static UiFramework.Primitives.Elements;
+using UiFramework.WPF;
+using static UiFramework.WPF.Elements;
 using static UiFramework.Framework;
 
 namespace UiFramework.Tests;
@@ -82,7 +82,7 @@ public class FrameworkShould
     [Fact]
     public void Render_Fragment()
     {
-        Render(CreateElement(Fragment, null,
+        Render(CreateElement(Framework.Fragment, null,
             CreateElement(Text, new {text = "child 1"}),
             CreateElement(Text, new {text = "child 2"})
         ));
@@ -97,7 +97,7 @@ public class FrameworkShould
     [Fact]
     public void Render_Fragment_With_Single_Child()
     {
-        Render(CreateElement(Fragment, null,
+        Render(CreateElement(Framework.Fragment, null,
             CreateElement(Text, new {text = "single child"})
         ));
 

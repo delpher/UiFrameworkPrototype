@@ -1,6 +1,6 @@
 ﻿using System.Windows.Input;
 
-namespace UiFramework.Primitives;
+namespace UiFramework.WPF;
 
 public class ButtonViewModel(Action? onClick)
 {

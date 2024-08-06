@@ -17,7 +17,7 @@ public class Babel : IDisposable
     private void EnsureBabel()
     {
         if (_scriptInitialized) return;
-        _engine.Execute(ScriptResources.Read("babel.min.js"));
+        _engine.Execute(EmbeddedResources.Read("babel.min.js"));
         _scriptInitialized = true;
     }
 

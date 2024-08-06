@@ -1,4 +1,4 @@
-﻿namespace UiFramework.Primitives;
+﻿namespace UiFramework.WPF;
 
 public class ContainerViewModel(object?[] children)
 {

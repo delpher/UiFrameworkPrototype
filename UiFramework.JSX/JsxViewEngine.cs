@@ -1,7 +1,6 @@
 ﻿using System.Reflection;
 using Microsoft.ClearScript.V8;
 using UiFramework.JSX.JavaScriptApis;
-using UiFramework.Primitives;
 
 namespace UiFramework.JSX;
 
@@ -27,6 +26,13 @@ public class JsxViewEngine(RootController rootController) : IDisposable
         rootController.Render((ElementFactory)_jsEngine.Evaluate(compiledScript));
     }
 
+    public void ExposeComponents(Type library)
+    {
+        foreach (var methodInfo in library.GetMethods(BindingFlags.Static | BindingFlags.Public))
+            _jsEngine.AddHostObject(methodInfo.Name,
+                methodInfo.CreateDelegate<Func<IDictionary<string, object?>, ViewModelFactory[], ViewModelFactory>>());
+    }
+
     public void ExposeApi(string name, object api)
     {
         _jsEngine.AddHostObject(name, api);
@@ -36,23 +42,13 @@ public class JsxViewEngine(RootController rootController) : IDisposable
     {
         if (_initialized) return;
         AddFrameworkApi();
-        ExposeComponents();
         _initialized = true;
     }
 
     private void AddFrameworkApi()
     {
         _jsEngine.AddHostObject("Framework", new FrameworkApi());
-        _jsEngine.Execute(ScriptResources.Read("JavaScriptApis.framework-api.js"));
-    }
-
-    private void ExposeComponents()
-    {
-        _jsEngine.ExposeHostObjectStaticMembers = true;
-        _jsEngine.AddHostObject("Components", new Elements());
-        foreach (var methodInfo in typeof(Elements).GetMethods(BindingFlags.Static | BindingFlags.Public))
-            _jsEngine.AddHostObject(methodInfo.Name,
-                methodInfo.CreateDelegate<Func<IDictionary<string, object?>, ViewModelFactory[], ViewModelFactory>>());
+        _jsEngine.Execute(EmbeddedResources.Read("JavaScriptApis.framework-api.js"));
     }
 
     public void Dispose()

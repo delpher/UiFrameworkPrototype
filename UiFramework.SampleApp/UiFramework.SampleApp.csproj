@@ -11,6 +11,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\UiFramework.JSX\UiFramework.JSX.csproj" />
+      <ProjectReference Include="..\UiFramework.WPF\UiFramework.WPF.csproj" />
       <ProjectReference Include="..\UiFramework\UiFramework.csproj" />
     </ItemGroup>
 

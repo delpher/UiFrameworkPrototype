@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace UiFramework.Primitives;
+namespace UiFramework;
 
 public static class DynamicExtensions
 {

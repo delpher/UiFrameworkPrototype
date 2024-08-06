@@ -1,4 +1,6 @@
-﻿namespace UiFramework.JSX.Tests.Helpers;
+﻿using UiFramework.WPF;
+
+namespace UiFramework.JSX.Tests.Helpers;
 
 public class JsxViewEngineTestFixture : IDisposable
 {
@@ -9,6 +11,7 @@ public class JsxViewEngineTestFixture : IDisposable
     {
         ViewModel = new();
         ViewEngine = new(Framework.CreateRoot(ViewModel, nameof(ViewModel.Content)));
+        ViewEngine.ExposeComponents(typeof(Elements));
     }
 
     public void Dispose()

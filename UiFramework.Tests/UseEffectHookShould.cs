@@ -1,7 +1,7 @@
-﻿using UiFramework.Primitives;
-using UiFramework.Tests.Helpers;
+﻿using UiFramework.Tests.Helpers;
+using UiFramework.WPF;
 using static UiFramework.Framework;
-using static UiFramework.Primitives.Elements;
+using static UiFramework.WPF.Elements;
 
 namespace UiFramework.Tests;
 
