@@ -5,6 +5,9 @@ namespace UiFramework;
 
 public static class Framework
 {
+    public static RootController CreateRoot(object viewModel, string propertyName) =>
+        new(content => viewModel.GetType().GetProperty(propertyName)!.SetValue(viewModel, content));
+
     public static ElementFactory CreateElement(
         Component component,
         IDictionary<string, object?>? props,

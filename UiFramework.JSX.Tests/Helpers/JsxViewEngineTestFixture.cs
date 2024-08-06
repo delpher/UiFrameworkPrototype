@@ -8,7 +8,7 @@ public class JsxViewEngineTestFixture : IDisposable
     public JsxViewEngineTestFixture()
     {
         ViewModel = new();
-        ViewEngine = new(UiFactory.CreateRoot(ViewModel, nameof(ViewModel.Content)));
+        ViewEngine = new(Framework.CreateRoot(ViewModel, nameof(ViewModel.Content)));
     }
 
     public void Dispose()

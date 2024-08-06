@@ -13,7 +13,7 @@ public class UseContextHookShould
     public UseContextHookShould()
     {
         _testAppViewModel = new();
-        _root = UiFactory.CreateRoot(_testAppViewModel, nameof(_testAppViewModel.Content));
+        _root = CreateRoot(_testAppViewModel, nameof(_testAppViewModel.Content));
     }
 
     private void Render(ElementFactory element) => _root.Render(element);
