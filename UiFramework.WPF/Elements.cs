@@ -2,7 +2,7 @@
 
 public static class Elements
 {
-    public static ViewModelFactory Text(IDictionary<string, object?> props, ViewModelFactory[] children) =>
+    public static ViewFactory Text(IDictionary<string, object?> props, ViewFactory[] children) =>
         () => new TextViewModel
         {
             Text = props.TryGetValue("text", out var text)
@@ -10,7 +10,7 @@ public static class Elements
                 : string.Empty
         };
 
-    public static ViewModelFactory Button(IDictionary<string, object?> props, ViewModelFactory[] children)
+    public static ViewFactory Button(IDictionary<string, object?> props, ViewFactory[] children)
     {
         props.TryGetValue("onClick", out var onClick);
         return () => new ButtonViewModel(() => ((dynamic)onClick!)())
@@ -21,10 +21,10 @@ public static class Elements
         };
     }
 
-    public static ViewModelFactory Container(IDictionary<string, object?>? props, ViewModelFactory[] children) =>
+    public static ViewFactory Container(IDictionary<string, object?>? props, ViewFactory[] children) =>
         () => new ContainerViewModel(CommitChildren(children));
 
-    private static object?[] CommitChildren(ViewModelFactory[] children) =>
+    private static object?[] CommitChildren(ViewFactory[] children) =>
         children
             .Select(child => child.Invoke())
             .Where(viewModel => viewModel != null)

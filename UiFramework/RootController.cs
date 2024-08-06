@@ -36,9 +36,9 @@ public class RootController(Action<object?> output)
         };
     }
 
-    private ViewModelFactory[] RenderChildren(ElementFactory?[] children) =>
+    private ViewFactory[] RenderChildren(ElementFactory?[] children) =>
         children.Select(RenderElement).ToArray();
 
-    private ViewModelFactory RenderElement(ElementFactory? child) =>
+    private ViewFactory RenderElement(ElementFactory? child) =>
         () => Render(child?.Invoke());
 }

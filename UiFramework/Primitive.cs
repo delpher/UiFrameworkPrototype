@@ -1,3 +1,3 @@
 ﻿namespace UiFramework;
 
-public delegate ViewModelFactory Primitive(IDictionary<string, object?> props, params ViewModelFactory[] children);
+public delegate ViewFactory Primitive(IDictionary<string, object?> props, params ViewFactory[] children);

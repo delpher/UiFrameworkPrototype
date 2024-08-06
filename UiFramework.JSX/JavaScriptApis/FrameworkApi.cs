@@ -20,7 +20,7 @@ public class FrameworkApi
             Func<IDictionary<string, object?>?, ElementFactory?[]?, ElementFactory> component =>
                 ElementFactoryFromComponent(component, adaptedProps, adaptedChildren),
             Component component => CreateElement(component, adaptedProps, adaptedChildren),
-            Func<IDictionary<string, object?>?, ViewModelFactory[], ViewModelFactory> primitive =>
+            Func<IDictionary<string, object?>?, ViewFactory[], ViewFactory> primitive =>
                 ElementFactoryFromPrimitive(primitive, adaptedProps, adaptedChildren),
             ScriptObject jsComponent => ElementFactoryFromJsComponent(jsComponent, adaptedProps, adaptedChildren),
             not null when element as Primitive == Framework.Fragment => ElementFromFragment(adaptedProps, adaptedChildren),
@@ -46,7 +46,7 @@ public class FrameworkApi
                 (ElementFactory)jsComponent.InvokeAsFunction(p, c), adaptedProps, adaptedChildren);
 
     private static ElementFactory ElementFactoryFromPrimitive(
-        Func<IDictionary<string, object?>?, ViewModelFactory[], ViewModelFactory> primitive,
+        Func<IDictionary<string, object?>?, ViewFactory[], ViewFactory> primitive,
         IDictionary<string, object?> adaptedProps, ElementFactory[] adaptedChildren) =>
         CreateElement(new Primitive(primitive), adaptedProps, adaptedChildren);
 

@@ -30,7 +30,7 @@ public class JsxViewEngine(RootController rootController) : IDisposable
     {
         foreach (var methodInfo in library.GetMethods(BindingFlags.Static | BindingFlags.Public))
             _jsEngine.AddHostObject(methodInfo.Name,
-                methodInfo.CreateDelegate<Func<IDictionary<string, object?>, ViewModelFactory[], ViewModelFactory>>());
+                methodInfo.CreateDelegate<Func<IDictionary<string, object?>, ViewFactory[], ViewFactory>>());
     }
 
     public void ExposeApi(string name, object api)
