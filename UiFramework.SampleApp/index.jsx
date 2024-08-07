@@ -1,9 +1,9 @@
 ﻿function App() {
-    const [count, setCount] = useState(0);
+    const [file, setFile] = useState('no file selected');
 
     return <Container>
-        <Text text={count}/>
-        <Button text="Add" onClick={() => setCount(count + 1)} />
+        <Text text={file} />
+        <FileInput selectedFile={file} onChange={path => setFile(path)} />
     </Container>
 }
 

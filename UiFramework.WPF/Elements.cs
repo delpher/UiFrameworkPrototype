@@ -10,6 +10,17 @@ public static class Elements
                 : string.Empty
         };
 
+    public static ViewFactory FileInput(IDictionary<string, object?> props, ViewFactory[] children) =>
+        () =>
+        {
+            props.TryGetValue("onChange", out var onChange);
+            props.TryGetValue("selectedFile", out var selectedFile);
+            return new FileInputViewModel(value => ((dynamic)onChange!)(value))
+            {
+                SelectedFile = selectedFile as string ?? ""
+            };
+        };
+
     public static ViewFactory Button(IDictionary<string, object?> props, ViewFactory[] children)
     {
         props.TryGetValue("onClick", out var onClick);
