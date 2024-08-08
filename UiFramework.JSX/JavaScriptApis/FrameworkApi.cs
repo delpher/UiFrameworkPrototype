@@ -10,7 +10,7 @@ namespace UiFramework.JSX.JavaScriptApis;
 [SuppressMessage("Performance", "CA1822:Mark members as static")]
 public class FrameworkApi
 {
-    public Element? createElement(object element, object props, object children)
+    public Element createElement(object element, object props, object children)
     {
         var adaptedProps = (IDictionary<string, object?>)props;
         var adaptedChildren = AdaptChildren(children);

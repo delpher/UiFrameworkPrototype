@@ -69,7 +69,7 @@ public class FrameworkShould
 
         return;
 
-        Element CustomComponent(dynamic props, params Element?[] children)
+        Element CustomComponent(dynamic? props, params Element?[] children)
         {
             var (text, setText) = UseState("default text");
             return CreateElement(Container, null,

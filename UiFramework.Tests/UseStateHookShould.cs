@@ -29,7 +29,7 @@ public class UseStateHookShould
         Root<ContainerViewModel>().Children[0].As<TextViewModel>().Text.Should().Be("button clicked");
         return;
 
-        Element StateComponent(IDictionary<string, object?> props, params Element?[] elementFactories)
+        Element StateComponent(IDictionary<string, object?>? props, params Element?[] elementFactories)
         {
             var (text, setText) = UseState("initial text");
 
@@ -49,9 +49,9 @@ public class UseStateHookShould
         Root<ContainerViewModel>().Children[0].As<TextViewModel>().Text.Should().Be("B");
         return;
 
-        Element ItemComponent(IDictionary<string, object?> props, params Element?[] elementFactories)
+        Element ItemComponent(IDictionary<string, object?>? props, params Element?[] elementFactories)
         {
-            var (state, _) = UseState((string)props["name"]!);
+            var (state, _) = UseState((string)props?["name"]!);
             return CreateElement(Text, new { text = state });
         }
 

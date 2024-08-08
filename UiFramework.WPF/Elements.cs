@@ -10,6 +10,7 @@ public static class Elements
                 : string.Empty
         };
 
+    // ReSharper disable once UnusedMember.Global
     public static ViewFactory FileInput(IDictionary<string, object?> props, ViewFactory[] children) =>
         () =>
         {

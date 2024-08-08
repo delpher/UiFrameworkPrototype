@@ -9,7 +9,7 @@ public class Context
     {
         Provider = (props, children) =>
         {
-            _value = props["value"];
+            _value = props?["value"];
             return Framework.CreateElement(Framework.Fragment, null, children);
         };
     }

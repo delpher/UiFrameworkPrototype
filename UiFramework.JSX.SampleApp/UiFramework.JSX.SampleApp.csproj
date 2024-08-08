@@ -6,11 +6,18 @@
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
         <UseWPF>true</UseWPF>
+        <EnableWindowsTargeting>true</EnableWindowsTargeting>
     </PropertyGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\UiFramework.JSX\UiFramework.JSX.csproj" />
       <ProjectReference Include="..\UiFramework.WPF\UiFramework.WPF.csproj" />
       <ProjectReference Include="..\UiFramework\UiFramework.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="index.jsx" />
+      <Resource Include="index.jsx" />
     </ItemGroup>
 
 </Project>

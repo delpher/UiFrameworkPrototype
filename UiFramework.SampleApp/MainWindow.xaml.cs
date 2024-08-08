@@ -1,4 +1,5 @@
-﻿using UiFramework.WPF;
+﻿using static UiFramework.Framework;
+using static UiFramework.WPF.Elements;
 
 namespace UiFramework.SampleApp;
 
@@ -7,10 +8,18 @@ public partial class MainWindow
     public MainWindow()
     {
         InitializeComponent();
-        var viewModel = new MainWindowViewModel();
-        DataContext = viewModel;
-        var viewEngine = new JSX.JsxViewEngine(Framework.CreateRoot(viewModel, nameof(viewModel.Content)));
-        viewEngine.ExposeComponents(typeof(Elements));
-        viewEngine.Render(App.ReadResource("index.jsx"));
+
+        CreateRoot(this, nameof(DataContext))
+            .Render(CreateElement(App));
+    }
+
+    private Element App(IDictionary<string, object?>? props, Element?[] children)
+    {
+        var (file, setFile) = UseState("no file selected");
+
+        return CreateElement(Container, null,
+            CreateElement(Text, new { text = file }),
+            CreateElement(FileInput, new { selectedFile = file, onChange = new Action<string>(path => setFile(path)) })
+        );
     }
 }
