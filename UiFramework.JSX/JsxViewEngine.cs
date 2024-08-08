@@ -33,10 +33,8 @@ public class JsxViewEngine(RootController rootController) : IDisposable
                 methodInfo.CreateDelegate<Func<IDictionary<string, object?>, ViewFactory[], ViewFactory>>());
     }
 
-    public void ExposeApi(string name, object api)
-    {
+    public void ExposeApi(string name, object api) =>
         _jsEngine.AddHostObject(name, api);
-    }
 
     private void EnsureInitialized()
     {
