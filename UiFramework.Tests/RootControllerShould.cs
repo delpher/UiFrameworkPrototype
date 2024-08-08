@@ -84,14 +84,14 @@ public class RootControllerShould
     public void Render_Component()
     {
         IDictionary<string,object?> props = new Dictionary<string, object?>();
-        ElementFactory[] children = [];
+        Element[] children = [];
 
         _root.Render(CreateElement(FunctionComponent, props, children));
 
         _output.ViewModel.Should().NotBeNull();
         return;
 
-        ElementFactory FunctionComponent(IDictionary<string, object?>? p, params ElementFactory?[] c) =>
+        Element FunctionComponent(IDictionary<string, object?>? p, params Element?[] c) =>
             CreateElement(TestPrimitive);
     }
 

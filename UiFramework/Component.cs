@@ -1,3 +1,3 @@
 ﻿namespace UiFramework;
 
-public delegate ElementFactory Component(IDictionary<string, object?> props, params ElementFactory?[] children);
+public delegate Element Component(IDictionary<string, object?>? props, params Element?[] children);

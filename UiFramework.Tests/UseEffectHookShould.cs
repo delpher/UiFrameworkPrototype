@@ -16,7 +16,7 @@ public class UseEffectHookShould
         _root = CreateRoot(_testAppViewModel, nameof(_testAppViewModel.Content));
     }
 
-    private void Render(ElementFactory element) => _root.Render(element);
+    private void Render(Element element) => _root.Render(element);
     private T Root<T>() => _testAppViewModel.Content.As<T>()!;
 
     [Fact]
@@ -44,7 +44,7 @@ public class UseEffectHookShould
         log.Should().HaveCount(3).And.Contain([0, 1, 0]);
         return;
 
-        ElementFactory App(dynamic? props, ElementFactory?[] children)
+        Element App(dynamic? props, Element?[] children)
         {
             var (version, setVersion) = UseState(0);
 

@@ -16,7 +16,7 @@ public class FrameworkShould
         _root = CreateRoot(_testAppViewModel, nameof(_testAppViewModel.Content));
     }
 
-    private void Render(ElementFactory element) => _root.Render(element);
+    private void Render(Element element) => _root.Render(element);
     private T Root<T>() => _testAppViewModel.Content.As<T>()!;
 
     [Fact]
@@ -69,7 +69,7 @@ public class FrameworkShould
 
         return;
 
-        ElementFactory CustomComponent(dynamic props, params ElementFactory?[] children)
+        Element CustomComponent(dynamic props, params Element?[] children)
         {
             var (text, setText) = UseState("default text");
             return CreateElement(Container, null,

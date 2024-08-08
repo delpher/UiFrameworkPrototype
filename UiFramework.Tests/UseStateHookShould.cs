@@ -16,7 +16,7 @@ public class UseStateHookShould
         _root = CreateRoot(_testAppViewModel, nameof(_testAppViewModel.Content));
     }
 
-    private void Render(ElementFactory element) => _root.Render(element);
+    private void Render(Element element) => _root.Render(element);
     private T Root<T>() => _testAppViewModel.Content.As<T>()!;
 
     [Fact]
@@ -29,7 +29,7 @@ public class UseStateHookShould
         Root<ContainerViewModel>().Children[0].As<TextViewModel>().Text.Should().Be("button clicked");
         return;
 
-        ElementFactory StateComponent(IDictionary<string, object?> props, params ElementFactory?[] elementFactories)
+        Element StateComponent(IDictionary<string, object?> props, params Element?[] elementFactories)
         {
             var (text, setText) = UseState("initial text");
 
@@ -49,13 +49,13 @@ public class UseStateHookShould
         Root<ContainerViewModel>().Children[0].As<TextViewModel>().Text.Should().Be("B");
         return;
 
-        ElementFactory ItemComponent(IDictionary<string, object?> props, params ElementFactory?[] elementFactories)
+        Element ItemComponent(IDictionary<string, object?> props, params Element?[] elementFactories)
         {
             var (state, _) = UseState((string)props["name"]!);
             return CreateElement(Text, new { text = state });
         }
 
-        ElementFactory RootComponent(dynamic? props, params ElementFactory?[] elementFactories)
+        Element RootComponent(dynamic? props, params Element?[] elementFactories)
         {
             var (showA, setShowA) = UseState(true);
 
@@ -78,13 +78,13 @@ public class UseStateHookShould
         Root<ContainerViewModel>().Children[0].As<TextViewModel>().Text.Should().NotBe(initialText);
         return;
 
-        ElementFactory ItemComponent(IDictionary<string, object?> props, params ElementFactory?[] elementFactories)
+        Element ItemComponent(IDictionary<string, object?> props, params Element?[] elementFactories)
         {
             var (state, _) = UseState(Guid.NewGuid().ToString());
             return CreateElement(Text, new { text = state });
         }
 
-        ElementFactory RootComponent(dynamic? props, params ElementFactory?[] elementFactories)
+        Element RootComponent(dynamic? props, params Element?[] elementFactories)
         {
             var (show, setShow) = UseState(true);
 
@@ -109,7 +109,7 @@ public class UseStateHookShould
         Root<ContainerViewModel>().Children[1].As<TextViewModel>().Text.Should().Be("state 2 updated");
 
         return;
-        ElementFactory RootComponent(dynamic? props, params ElementFactory?[] elementFactories)
+        Element RootComponent(dynamic? props, params Element?[] elementFactories)
         {
             var (state1, setState1) = UseState("state 1");
             var (state2, setState2) = UseState("state 2");

@@ -1,3 +1,3 @@
 ﻿namespace UiFramework;
 
-public delegate Element ElementFactory();
+//public delegate Element ElementFactory();

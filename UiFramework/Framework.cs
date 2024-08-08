@@ -7,38 +7,38 @@ public static class Framework
     public static RootController CreateRoot(object viewModel, string propertyName) =>
         new(content => viewModel.GetType().GetProperty(propertyName)!.SetValue(viewModel, content));
 
-    public static ElementFactory CreateElement(
+    public static Element CreateElement(
         Component component,
         IDictionary<string, object?>? props,
-        params ElementFactory[] children) =>
-        () => new()
+        params Element?[] children) =>
+        new()
         {
             Type = component,
             Props = props,
             Children = children
         };
 
-    public static ElementFactory CreateElement(
+    public static Element CreateElement(
         Primitive primitive,
         IDictionary<string, object?>? props,
-        params ElementFactory?[] children) =>
-        () => new()
+        params Element?[] children) =>
+        new()
         {
             Type = primitive,
             Props = props,
             Children = children
         };
 
-    public static ElementFactory CreateElement(
+    public static Element CreateElement(
         Component component,
         dynamic? props = null,
-        params ElementFactory?[] children) =>
+        params Element?[] children) =>
         CreateElement(component, DynamicExtensions.GetProperties(props), children);
 
-    public static ElementFactory CreateElement(
+    public static Element CreateElement(
         Primitive primitive,
         dynamic? props = null,
-        params ElementFactory?[] children) =>
+        params Element?[] children) =>
         CreateElement(primitive, DynamicExtensions.GetProperties(props), children);
 
     public static (object?, Action<object?>) UseState(object? initialState) =>

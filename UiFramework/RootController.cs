@@ -5,7 +5,7 @@ public class RootController(Action<object?> output)
     private Action _renderer = null!;
     private StateManager _stateManager = new();
 
-    public void Render(ElementFactory element)
+    public void Render(Element element)
     {
         _stateManager = new();
         _renderer = CreateRenderer(element);
@@ -13,15 +13,15 @@ public class RootController(Action<object?> output)
         _renderer();
     }
 
-    private Action CreateRenderer(ElementFactory elementFactory) =>
+    private Action CreateRenderer(Element? element) =>
         () =>
         {
             _stateManager.Reset();
             using (StateManager.LockTo(_stateManager))
-                output(Render(elementFactory()));
+                output(RenderElement(element));
         };
 
-    private object? Render(Element? element)
+    private object? RenderElement(Element? element)
     {
         _stateManager.AdvanceState();
         if (element == null) return null;
@@ -31,14 +31,12 @@ public class RootController(Action<object?> output)
         return element.Type switch
         {
             Primitive primitive => primitive(props, RenderChildren(children))(),
-            Component component => Render(component(props, children)()),
+            Component component => RenderElement(component(props, children)),
             _ => throw new NotSupportedException($"Element of type '{element.GetType().Name}' is not supported")
         };
     }
 
-    private ViewFactory[] RenderChildren(ElementFactory?[] children) =>
-        children.Select(RenderElement).ToArray();
+    private ViewFactory[] RenderChildren(Element?[] children) => children.Select(RenderChild).ToArray();
 
-    private ViewFactory RenderElement(ElementFactory? child) =>
-        () => Render(child?.Invoke());
+    private ViewFactory RenderChild(Element? child) => () => RenderElement(child);
 }

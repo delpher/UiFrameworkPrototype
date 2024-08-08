@@ -10,14 +10,14 @@ namespace UiFramework.JSX.JavaScriptApis;
 [SuppressMessage("Performance", "CA1822:Mark members as static")]
 public class FrameworkApi
 {
-    public ElementFactory createElement(object element, object props, object children)
+    public Element? createElement(object element, object props, object children)
     {
         var adaptedProps = (IDictionary<string, object?>)props;
         var adaptedChildren = AdaptChildren(children);
 
         return element switch
         {
-            Func<IDictionary<string, object?>?, ElementFactory?[]?, ElementFactory> component =>
+            Func<IDictionary<string, object?>?, Element?[]?, Element> component =>
                 ElementFactoryFromComponent(component, adaptedProps, adaptedChildren),
             Component component => CreateElement(component, adaptedProps, adaptedChildren),
             Func<IDictionary<string, object?>?, ViewFactory[], ViewFactory> primitive =>
@@ -28,34 +28,34 @@ public class FrameworkApi
         };
     }
 
-    private static ElementFactory[] AdaptChildren(object children) =>
+    private static Element[] AdaptChildren(object children) =>
         (children as IList<object> ?? [])
         .SelectMany(child => child switch
         {
-            ElementFactory e => [e],
-            IList<object> elements => elements.Cast<ElementFactory>(),
+            Element e => [e],
+            IList<object> elements => elements.Cast<Element>(),
             _ => [default]
         }).ToArray();
 
-    private static ElementFactory ElementFactoryFromJsComponent(
+    private static Element ElementFactoryFromJsComponent(
         ScriptObject jsComponent,
         IDictionary<string, object?> adaptedProps,
-        ElementFactory[] adaptedChildren) =>
+        Element[] adaptedChildren) =>
         CreateElement(
             (p, c) =>
-                (ElementFactory)jsComponent.InvokeAsFunction(p, c), adaptedProps, adaptedChildren);
+                (Element)jsComponent.InvokeAsFunction(p, c), adaptedProps, adaptedChildren);
 
-    private static ElementFactory ElementFactoryFromPrimitive(
+    private static Element ElementFactoryFromPrimitive(
         Func<IDictionary<string, object?>?, ViewFactory[], ViewFactory> primitive,
-        IDictionary<string, object?> adaptedProps, ElementFactory[] adaptedChildren) =>
+        IDictionary<string, object?> adaptedProps, Element[] adaptedChildren) =>
         CreateElement(new Primitive(primitive), adaptedProps, adaptedChildren);
 
-    private static ElementFactory ElementFactoryFromComponent(
-        Func<IDictionary<string, object?>?, ElementFactory?[]?, ElementFactory> component,
-        IDictionary<string, object?> adaptedProps, ElementFactory[] adaptedChildren) =>
-        CreateElement(new(component), adaptedProps, adaptedChildren);
+    private static Element ElementFactoryFromComponent(
+        Func<IDictionary<string, object?>?, Element?[]?, Element> component,
+        IDictionary<string, object?> adaptedProps, Element[] adaptedChildren) =>
+        CreateElement(new Component(component), adaptedProps, adaptedChildren);
 
-    private static ElementFactory ElementFromFragment(IDictionary<string, object?> props, ElementFactory[] children) =>
+    private static Element ElementFromFragment(IDictionary<string, object?> props, Element[] children) =>
         CreateElement(Framework.Fragment, props, children);
 
     public object?[] useState(object initialState)

@@ -23,7 +23,7 @@ public class JsxViewEngine(RootController rootController) : IDisposable
         var scriptSource = _babel.Transform(jsx);
         var compiledScript = _jsEngine.Compile(scriptSource);
 
-        rootController.Render((ElementFactory)_jsEngine.Evaluate(compiledScript));
+        rootController.Render((Element)_jsEngine.Evaluate(compiledScript));
     }
 
     public void ExposeComponents(Type library)

@@ -16,7 +16,7 @@ public class UseContextHookShould
         _root = CreateRoot(_testAppViewModel, nameof(_testAppViewModel.Content));
     }
 
-    private void Render(ElementFactory element) => _root.Render(element);
+    private void Render(Element element) => _root.Render(element);
     private T Root<T>() => _testAppViewModel.Content.As<T>()!;
 
     [Fact]
@@ -37,13 +37,13 @@ public class UseContextHookShould
 
         return;
 
-        ElementFactory TestContextConsumer(dynamic? props, ElementFactory?[] children)
+        Element TestContextConsumer(dynamic? props, Element?[] children)
         {
             var value = UseContext(TestContext);
             return CreateElement(Text, new { text = value });
         }
 
-        ElementFactory App(dynamic? props, ElementFactory?[] children)
+        Element App(dynamic? props, Element?[] children)
         {
             var (state, setState) = UseState("initial state");
 
@@ -79,13 +79,13 @@ public class UseContextHookShould
 
         return;
 
-        ElementFactory TestContextConsumer(dynamic? props, ElementFactory?[] children)
+        Element TestContextConsumer(dynamic? props, Element?[] children)
         {
             var value = UseContext(TestContext);
             return CreateElement(Text, new { text = value });
         }
 
-        ElementFactory App(dynamic? props, ElementFactory?[] children)
+        Element App(dynamic? props, Element?[] children)
         {
             var (version, setVersion) = UseState(0);
 
