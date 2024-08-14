@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>WinExe</OutputType>
+        <TargetFramework>net8.0-windows</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <UseWPF>true</UseWPF>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <Folder Include="dist\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Microsoft.ClearScript.V8" Version="7.4.5" />
+      <PackageReference Include="Microsoft.ClearScript.V8.Native.win-x64" Version="7.4.5" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="dist\index.js" />
+      <EmbeddedResource Include="dist\index.js" />
+    </ItemGroup>
+
+    <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+      <Exec Command="npm run build-dev" />
+    </Target>
+
+</Project>

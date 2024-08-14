@@ -1,0 +1,11 @@
+﻿<Application x:Class="WpfWithReact.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:WpfWithReact"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <DataTemplate DataType="{x:Type local:TextViewModel}">
+            <TextBlock Text="{Binding Text}" />
+        </DataTemplate>
+    </Application.Resources>
+</Application>

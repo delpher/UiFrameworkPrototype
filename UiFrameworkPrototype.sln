@@ -14,6 +14,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UiFramework.WPF", "UiFramew
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UiFramework.SampleApp", "UiFramework.SampleApp\UiFramework.SampleApp.csproj", "{E9F54BB5-BB67-47B0-80D9-6B8CED610DBE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfWithReact", "WpfWithReact\WpfWithReact.csproj", "{0F7BDF3D-0D9C-48A9-96F4-48929A3C7F43}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -48,5 +50,9 @@ Global
 		{E9F54BB5-BB67-47B0-80D9-6B8CED610DBE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E9F54BB5-BB67-47B0-80D9-6B8CED610DBE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E9F54BB5-BB67-47B0-80D9-6B8CED610DBE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0F7BDF3D-0D9C-48A9-96F4-48929A3C7F43}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F7BDF3D-0D9C-48A9-96F4-48929A3C7F43}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F7BDF3D-0D9C-48A9-96F4-48929A3C7F43}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F7BDF3D-0D9C-48A9-96F4-48929A3C7F43}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
